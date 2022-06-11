@@ -11,3 +11,13 @@ function randomInteger(min, max) {
 }
 
 console.log (randomInteger(3, 10));
+
+
+function checkLength(str, max) {
+  if (str.length <= max) {
+    return true
+  }
+  return false
+}
+
+console.log (checkLength('Hello', 20))
