@@ -7,27 +7,27 @@ function getRandomInteger(a, b) {
 
 function checkLength(str, max) {
   if (str.length <= max) {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
 function createRandomIdFromRangeGenerator (min, max, numberOfElements) {
   const randomArray= [];
   while (randomArray.length < numberOfElements) {
-    let randomCommentsId = getRandomInteger(min,max);
+    const randomCommentsId = getRandomInteger(min,max);
     if (!randomArray.includes(randomCommentsId)) {
       randomArray.push(randomCommentsId);
-     }
     }
-    return randomArray;
+  }
+  return randomArray;
 }
 
 function getRandomIndex(name) {
   const randomIndex = getRandomInteger(0, name.length-1);
-  return randomIndex
+  return randomIndex;
 }
 
 export {getRandomIndex};
 export {createRandomIdFromRangeGenerator};
-export {getRandomInteger}
+export {getRandomInteger};
