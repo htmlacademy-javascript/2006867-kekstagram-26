@@ -1,7 +1,7 @@
 function getRandomInteger(a, b) {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + upper;
+  const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
 
@@ -23,11 +23,10 @@ function createRandomIdFromRangeGenerator (min, max, numberOfElements) {
   return randomArray;
 }
 
-function getRandomIndex(name) {
-  const randomIndex = getRandomInteger(0, name.length-1);
-  return randomIndex;
+function getRandomArrayElement(elements) {
+  return elements[getRandomInteger(0, elements.length-1)];
 }
 
-export {getRandomIndex};
+export {getRandomArrayElement};
 export {createRandomIdFromRangeGenerator};
 export {getRandomInteger};

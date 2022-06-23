@@ -1,8 +1,10 @@
-import {getRandomIndex} from './util.js';
+import {getRandomArrayElement} from './util.js';
 import {createRandomIdFromRangeGenerator} from './util.js';
 import {getRandomInteger} from './util.js';
 
 const NAMES = ['Иван', 'Алексей', 'Виталий', 'Артем', 'Анна', 'Максим', 'Катерина'];
+
+
 const MESSAGES = [
   'Всё отлично! ',
   'В целом всё неплохо. Но не всё. ',
@@ -20,32 +22,28 @@ const DESCRIPTION = [
   'Описание фото 5'
 ];
 
-
 function createPost() {
   const post = [];
   for (let i = 0; i <= 24; i++){
-    const randomNameIndex = getRandomIndex(NAMES);
     const avatarId = getRandomInteger(0, 6);
-    const randomDescriptionIndex = getRandomIndex(DESCRIPTION);
-    const randomMesssageIndex = getRandomIndex(MESSAGES);
-    const commentsId = createRandomIdFromRangeGenerator(1, 200, 25);
+    const commentsId = createRandomIdFromRangeGenerator(1, 200, 100);
     const IdArray = createRandomIdFromRangeGenerator(1, 25, 25);
     const element = {
       id: IdArray[i],
       url: `photos/${IdArray[i]}.jpg`,
-      description: DESCRIPTION[randomDescriptionIndex],
+      description: getRandomArrayElement(DESCRIPTION),
       likes: getRandomInteger(15, 200),
-      comments : {
+      comments : [{
         id: commentsId[i],
         avatar: `img/avatar-${avatarId}.svg`,
-        message: MESSAGES[randomMesssageIndex],
-        name: NAMES[randomNameIndex],
-      }
+        message: getRandomArrayElement(MESSAGES),
+        name: getRandomArrayElement(NAMES),
+      }]
     };
     post[i]=element;
   }
   return post;
-}
+};
 
 const Post = createPost();
 export {Post};
