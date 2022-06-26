@@ -1,8 +1,10 @@
-import {getRandomIndex} from './util.js';
+import {getRandomArrayElement} from './util.js';
 import {createRandomIdFromRangeGenerator} from './util.js';
 import {getRandomInteger} from './util.js';
 
 const NAMES = ['Иван', 'Алексей', 'Виталий', 'Артем', 'Анна', 'Максим', 'Катерина'];
+
+
 const MESSAGES = [
   'Всё отлично! ',
   'В целом всё неплохо. Но не всё. ',
@@ -20,27 +22,30 @@ const DESCRIPTION = [
   'Описание фото 5'
 ];
 
-
 function createPost() {
   const post = [];
+  const avatarId = getRandomInteger(1, 6);
+  const commentsId = createRandomIdFromRangeGenerator(1, 50, 50);
+  const IdArray = createRandomIdFromRangeGenerator(1, 25, 25);
+  const UrlArray = createRandomIdFromRangeGenerator(1,25,25);
   for (let i = 0; i <= 24; i++){
-    const randomNameIndex = getRandomIndex(NAMES);
-    const avatarId = getRandomInteger(0, 6);
-    const randomDescriptionIndex = getRandomIndex(DESCRIPTION);
-    const randomMesssageIndex = getRandomIndex(MESSAGES);
-    const commentsId = createRandomIdFromRangeGenerator(1, 200, 25);
-    const IdArray = createRandomIdFromRangeGenerator(1, 25, 25);
     const element = {
       id: IdArray[i],
-      url: `photos/${IdArray[i]}.jpg`,
-      description: DESCRIPTION[randomDescriptionIndex],
+      url: `photos/${UrlArray[i]}.jpg`,
+      description: getRandomArrayElement(DESCRIPTION),
       likes: getRandomInteger(15, 200),
-      comments : {
-        id: commentsId[i],
+      comments : [{
+        id: commentsId[i*2],
         avatar: `img/avatar-${avatarId}.svg`,
-        message: MESSAGES[randomMesssageIndex],
-        name: NAMES[randomNameIndex],
-      }
+        message: getRandomArrayElement(MESSAGES),
+        name: getRandomArrayElement(NAMES),
+      },
+      {
+        id: commentsId[i*2+1],
+        avatar: `img/avatar-${avatarId+1}.svg`,
+        message: getRandomArrayElement(MESSAGES),
+        name: getRandomArrayElement(NAMES),
+      }]
     };
     post[i]=element;
   }
@@ -48,4 +53,5 @@ function createPost() {
 }
 
 const Post = createPost();
+
 export {Post};
