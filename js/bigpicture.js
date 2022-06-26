@@ -27,7 +27,6 @@ for (const picture of allpictures) {
     bigPicture.querySelector('img').src = picture.querySelector('.picture__img').src;
     const pictureSrc =  picture.querySelector('.picture__img').src;
     let picId = '';
-    // console.log(pictureSrc.length);
     if (pictureSrc.length===34) {
       picId += pictureSrc[pictureSrc.length-5];
     }
@@ -44,13 +43,11 @@ for (const picture of allpictures) {
 
     // const PictureId = Post.find(item => item.url === `photos/${picId}.jpg`).description;
     const PictureId = findElement(Post, `photos/${picId}.jpg`, 'description');
-    // console.log(PictureId);
     const objectsOfComments = findElement(Post, `photos/${picId}.jpg`, 'comments');
     // console.log(objectsOfComments);
     bigPicture.querySelector('.comments-count').textContent = objectsOfComments.length;
     bigPicture.querySelector('.social__caption').textContent = PictureId;
     commentsElement[1].remove();
-    // console.log(commentsElement[0]);
     objectsOfComments.forEach((item) => {
       const element = commentsElement[0].cloneNode(true);
       element.querySelector('.social__picture').src=item.avatar;
