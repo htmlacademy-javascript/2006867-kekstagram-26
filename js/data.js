@@ -24,18 +24,25 @@ const DESCRIPTION = [
 
 function createPost() {
   const post = [];
+  const avatarId = getRandomInteger(1, 6);
+  const commentsId = createRandomIdFromRangeGenerator(1, 50, 50);
+  const IdArray = createRandomIdFromRangeGenerator(1, 25, 25);
+  const UrlArray = createRandomIdFromRangeGenerator(1,25,25);
   for (let i = 0; i <= 24; i++){
-    const avatarId = getRandomInteger(0, 6);
-    const commentsId = createRandomIdFromRangeGenerator(1, 200, 100);
-    const IdArray = createRandomIdFromRangeGenerator(1, 25, 25);
     const element = {
       id: IdArray[i],
-      url: `photos/${IdArray[i]}.jpg`,
+      url: `photos/${UrlArray[i]}.jpg`,
       description: getRandomArrayElement(DESCRIPTION),
       likes: getRandomInteger(15, 200),
       comments : [{
-        id: commentsId[i],
+        id: commentsId[i*2],
         avatar: `img/avatar-${avatarId}.svg`,
+        message: getRandomArrayElement(MESSAGES),
+        name: getRandomArrayElement(NAMES),
+      },
+      {
+        id: commentsId[i*2+1],
+        avatar: `img/avatar-${avatarId+1}.svg`,
         message: getRandomArrayElement(MESSAGES),
         name: getRandomArrayElement(NAMES),
       }]
@@ -43,7 +50,8 @@ function createPost() {
     post[i]=element;
   }
   return post;
-};
+}
 
 const Post = createPost();
+
 export {Post};
