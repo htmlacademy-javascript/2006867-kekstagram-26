@@ -34,7 +34,7 @@ for (const picture of allpictures) {
     // const PictureId = Post.find(item => item.url === `photos/${picId}.jpg`).description;
     const PictureId = findElement(Post, `photos/${picId}.jpg`, 'description');
     const objectsOfComments = findElement(Post, `photos/${picId}.jpg`, 'comments');
-
+console.log(objectsOfComments);
     const numberOfComments = objectsOfComments.length;
     if (numberOfComments < 5) {
       console.log('yes')
@@ -54,17 +54,28 @@ for (const picture of allpictures) {
     });
     commentsList.appendChild(fragment);
     commentsElement[0].remove();
-  });
+
+    // Реализуем показ только 5ти комментариев на странице
+    const newListOfComments = document.querySelectorAll('.social__comment');
+    console.log(newListOfComments);
+    if ( newListOfComments.length > 5 ) {
+      for ( let i = 5; i < newListOfComments.length; i++ ) {
+      newListOfComments[i].classList.add('hidden');
+      }
+    }
+
+    // Реализуем добавление комментариев при нажатии "Загрузить еще"
+    commentsLoader.addEventListener('click', function() {
+
+    })
+  }
+  );
+
+
 
   function closeBigPicture() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', (evt) => {
-      if (isEscapeKey(evt)) {
-        evt.preventDefault();
-        bigPicture.classList.add('hidden');
-      }
-    });
   };
 
   closeButton.addEventListener('click', closeBigPicture );
