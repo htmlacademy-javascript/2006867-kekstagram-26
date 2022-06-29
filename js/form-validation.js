@@ -20,6 +20,7 @@ function checkSimilarElements(arr) {
 
 form.addEventListener('submit', function(evt) {
   // const isValid = pristine.validate();
+  console.log(inputHashtags.value);
   let arrHashTag = inputHashtags.value.split(' ');
   let modifiedArrHashTag = [];
 
@@ -40,7 +41,7 @@ console.log(checkSimilarElements(modifiedArrHashTag));
   }
   else {
     for (let i=0; i<arrHashTag.length; i++) {
-      if (hashtagValidate(modifiedArrHashTag[i]) || inputHashtags.value === ' ')  {
+      if (hashtagValidate(modifiedArrHashTag[i]))  {
         console.log('Можно отправлять');
       } else {
         console.log('Форма невалидна!');

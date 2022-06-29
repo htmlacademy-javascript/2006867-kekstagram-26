@@ -65,8 +65,14 @@ console.log(objectsOfComments);
     }
 
     // Реализуем добавление комментариев при нажатии "Загрузить еще"
+    let countOfComments = 5;
     commentsLoader.addEventListener('click', function() {
-
+      countOfComments += 5;
+      if (countOfComments <= newListOfComments.length) {
+        for (let i = 0; i < countOfComments; i++) {
+          newListOfComments[i].classList.remove('hidden');
+        }
+      }
     })
   }
   );
