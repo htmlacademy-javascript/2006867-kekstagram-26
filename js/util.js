@@ -27,6 +27,17 @@ function getRandomArrayElement(elements) {
   return elements[getRandomInteger(0, elements.length-1)];
 }
 
+const findElement = function(array, key, field) {
+  for (let i=0; i<array.length; i++) {
+    if (array[i].url===key && field==='description') {
+      return array[i].description;}
+    if (array[i].url===key && field ==='comments')  {
+      return array[i].comments;
+    }
+  }
+};
+
 export {getRandomArrayElement};
 export {createRandomIdFromRangeGenerator};
 export {getRandomInteger};
+export {findElement}
