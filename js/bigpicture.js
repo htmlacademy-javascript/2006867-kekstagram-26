@@ -32,10 +32,8 @@ for (const picture of allpictures) {
     // const PictureId = Post.find(item => item.url === `photos/${picId}.jpg`).description;
     const PictureId = findElement(Post, `photos/${picId}.jpg`, 'description');
     const objectsOfComments = findElement(Post, `photos/${picId}.jpg`, 'comments');
-console.log(objectsOfComments);
     const numberOfComments = objectsOfComments.length;
     if (numberOfComments < 5) {
-      console.log('yes')
       console.log(commentCount.childNodes[0].textContent= `${numberOfComments} из `);
     }
 
@@ -86,7 +84,7 @@ console.log(objectsOfComments);
   closeButton.addEventListener('click', closeBigPicture );
 
   document.addEventListener('keydown', function(evt) {
-    if (evt.keyCode === 27) {
+    if (evt.key ==='Escape') {
       document.body.classList.remove('modal-open');
       bigPicture.classList.add('hidden');
     }});
