@@ -24,7 +24,7 @@ const DESCRIPTION = [
 
 function createPost() {
   const post = [];
-  const avatarId = getRandomInteger(1, 6);
+  const avatarId = getRandomInteger(1, 5);
   const commentsId = createRandomIdFromRangeGenerator(1, 50, 50);
   const IdArray = createRandomIdFromRangeGenerator(1, 25, 25);
   const UrlArray = createRandomIdFromRangeGenerator(1,25,25);
