@@ -31,8 +31,7 @@ closeButtonElement.addEventListener('click', function() {
 })
 
 document.addEventListener('keydown', function(evt) {
-  if (evt.keyCode === 27 && !document.activeElement===inputElement) {
-    debugger
+  if (evt.key === 'Escape') {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
   }});
