@@ -11,8 +11,6 @@ const commentsElement = commentsList.querySelectorAll('.social__comment');
 const commentCount = bigPicture.querySelector('.social__comment-count ');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 const fragment = document.createDocumentFragment();
-console.log(commentCount.childNodes[0]);
-
 
 for (const picture of allpictures) {
   picture.addEventListener('click', function () {
@@ -82,6 +80,7 @@ console.log(objectsOfComments);
   function closeBigPicture() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
+
   };
 
   closeButton.addEventListener('click', closeBigPicture );
@@ -93,5 +92,6 @@ console.log(objectsOfComments);
     }});
 }
 
-
+// удалить комментарии при закрытии!!!!
+// если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 export {bigPicture}
