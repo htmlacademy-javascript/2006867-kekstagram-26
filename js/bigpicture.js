@@ -34,9 +34,8 @@ for (const picture of allpictures) {
     const objectsOfComments = findElement(Post, `photos/${picId}.jpg`, 'comments');
     const numberOfComments = objectsOfComments.length;
     if (numberOfComments < 5) {
-      console.log(commentCount.childNodes[0].textContent= `${numberOfComments} из `);
+      commentCount.childNodes[0].textContent= `${numberOfComments} из `;
     }
-
 
     bigPicture.querySelector('.comments-count').textContent = objectsOfComments.length;
     bigPicture.querySelector('.social__caption').textContent = PictureId;
@@ -56,8 +55,11 @@ for (const picture of allpictures) {
     console.log(newListOfComments);
     if ( newListOfComments.length > 5 ) {
       for ( let i = 5; i < newListOfComments.length; i++ ) {
-      newListOfComments[i].classList.add('hidden');
+        newListOfComments[i].classList.add('hidden');
       }
+    }
+    else {
+      commentsLoader.classList.add('hidden');
     }
 
     // Реализуем добавление комментариев при нажатии "Загрузить еще"
@@ -69,17 +71,15 @@ for (const picture of allpictures) {
           newListOfComments[i].classList.remove('hidden');
         }
       }
-    })
+    });
   }
   );
-
 
 
   function closeBigPicture() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
-
-  };
+  }
 
   closeButton.addEventListener('click', closeBigPicture );
 
@@ -92,4 +92,4 @@ for (const picture of allpictures) {
 
 // удалить комментарии при закрытии!!!!
 // если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-export {bigPicture}
+export {bigPicture};

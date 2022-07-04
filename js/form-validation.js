@@ -26,63 +26,64 @@ function modifyArrHashTag(value) {
 
 pristine.addValidator(inputHashtags, function(value) {
   if  (modifyArrHashTag(value).length <= 5) {
-    return true
+    return true;
   }
-    return false
+  return false;
 }, 'Допускается не более пяти хэштегов', false );
 
 pristine.addValidator(inputHashtags, function(value) {
   if  (modifyArrHashTag(value).length === 1) {
-    return false
+    return false;
   }
-    return true
+  return true;
 }, 'хеш-тег не может состоять только из одной решётки', false );
 
 pristine.addValidator(inputHashtags, function(value) {
   if (!checkSimilarElements(modifyArrHashTag(value))) {
-    return true
+    return true;
   }
-    return false
+  return false;
 }, 'Хештеги должны быть разными', false);
 
 pristine.addValidator(inputHashtags, function(value) {
   for (let i = 0; i < modifyArrHashTag(value).length; i++) {
     if (hashtagValidate(modifyArrHashTag(value)[i])) {
-      return true
+      return true;
     }
-    return false
+    return false;
   }
-  }, 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
+}, 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
 
-  pristine.addValidator(inputHashtags, function(value) {
-    for (let i = 0; i < modifyArrHashTag(value).length; i++) {
-      if (modifyArrHashTag(value)[i].startsWith('#')) {
-        return true
-      }
-      return false
+pristine.addValidator(inputHashtags, function(value) {
+  for (let i = 0; i < modifyArrHashTag(value).length; i++) {
+    if (modifyArrHashTag(value)[i].startsWith('#')) {
+      return true;
+    }
+    return false;
   }
 }, 'Хештег должен начинаться с #', false);
 
-  pristine.addValidator(inputHashtags, function(value) {
-    for (let i = 0; i< modifyArrHashTag(value).length; i++) {
-      if (modifyArrHashTag(value)[i].length < 20) {
-        return true
-      }
-        return false
+pristine.addValidator(inputHashtags, function(value) {
+  for (let i = 0; i< modifyArrHashTag(value).length; i++) {
+    if (modifyArrHashTag(value)[i].length < 20) {
+      return true;
     }
-  }, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', false);
+    return false;
+  }
+}, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', false);
 
-  pristine.addValidator(inputComments, function(value) {
-    if (value.length < 140) {
-      return true
-    }
-    return false
-  }, 'Макс длина комментария 140 символов')
+pristine.addValidator(inputComments, function(value) {
+  if (value.length < 140) {
+    return true;
+  }
+  return false;
+}, 'Макс длина комментария 140 символов');
 
 formElement.addEventListener('submit', function(evt) {
-  evt.preventDefault();
-  pristine.validate();
-
+  const isValid = pristine.validate();
+  if (!isValid()) {
+    evt.preventDefault();
+  }
 });
 
-export {formElement}
+export {formElement};
