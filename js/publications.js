@@ -15,4 +15,4 @@ Post.forEach((item) => {
 });
 pictures.appendChild(fragment);
 
-export {pictures}
+export {pictures};

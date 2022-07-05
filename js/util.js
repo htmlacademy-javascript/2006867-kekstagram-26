@@ -40,4 +40,4 @@ const findElement = function(array, key, field) {
 export {getRandomArrayElement};
 export {createRandomIdFromRangeGenerator};
 export {getRandomInteger};
-export {findElement}
+export {findElement};
