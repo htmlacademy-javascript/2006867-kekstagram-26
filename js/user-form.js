@@ -39,11 +39,13 @@ document.addEventListener('click', function(e) {
     numberScaleValue -= 25;
     scaleValue.value = `${numberScaleValue} %`;
     uploadImageElement.style.transform = `scale(${numberScaleValue*0.01})`;
+
   }
   else if (e.target.classList.contains('scale__control--bigger') && numberScaleValue < 100) {
     numberScaleValue += 25;
     scaleValue.value = `${numberScaleValue} %`;
     uploadImageElement.style.transform = `scale(${numberScaleValue*0.01})`;
+
   }
 });
 
