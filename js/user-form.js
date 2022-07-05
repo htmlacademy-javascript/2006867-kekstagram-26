@@ -28,7 +28,7 @@ closeButtonElement.addEventListener('click', function() {
 });
 
 document.addEventListener('keydown', function(evt) {
-  if (evt.key === 'Escape' || !document.activeElement === inputElement) {
+  if (evt.key === 'Escape' && document.activeElement !== inputElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
     console.log(document.activeElement === inputElement);
@@ -81,7 +81,7 @@ effectsElement[1].addEventListener('change', function() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     ImageElement.classList.add(`effects__preview--${effectsElement[1].value}`);
-    uploadImageElement.style.filter = `grayscale(${valueElement.value})`;
+    ImageElement.style.filter = `grayscale(${valueElement.value})`;
     console.log(uploadImageElement.style.filter);
   });
 });
@@ -101,7 +101,7 @@ effectsElement[2].addEventListener('change', function() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     ImageElement.classList.add(`effects__preview--${effectsElement[2].value}`);
-    uploadImageElement.style.filter = `sepia(${valueElement.value})`;
+    ImageElement.style.filter = `sepia(${valueElement.value})`;
     console.log(uploadImageElement.style.filter);
   });
 });
@@ -140,7 +140,7 @@ effectsElement[4].addEventListener('change', function() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     ImageElement.classList.add(`effects__preview--${effectsElement[4].value}`);
-    uploadImageElement.style.filter = `blur(${valueElement.value}px)`;
+    ImageElement.style.filter = `blur(${valueElement.value}px)`;
   });
 });
 
@@ -160,7 +160,7 @@ effectsElement[5].addEventListener('change', function() {
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     ImageElement.classList.add(`effects__preview--${effectsElement[5].value}`);
-    uploadImageElement.style.filter = `brightness(${valueElement.value})`;
+    ImageElement.style.filter = `brightness(${valueElement.value})`;
   });
 });
 
