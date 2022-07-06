@@ -1,15 +1,19 @@
-import { pictures } from './publications.js';
 import {Post} from './data.js';
 import { findElement } from './util.js';
 
 
-const bigPicture = document.querySelector('.big-picture ');
+const bigPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
-const allpictures = pictures.querySelectorAll('.picture');
+const pictures = document.querySelector('.pictures');
+const allpictures = pictures.querySelectorAll('a');
 const commentsList = bigPicture.querySelector('.social__comments');
 const commentsElement = commentsList.querySelectorAll('.social__comment');
 const commentCount = bigPicture.querySelector('.social__comment-count ');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+
+console.log(pictures);
+console.log(allpictures);
+
 const fragment = document.createDocumentFragment();
 
 for (const picture of allpictures) {
