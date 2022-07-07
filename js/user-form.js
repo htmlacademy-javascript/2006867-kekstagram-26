@@ -14,25 +14,33 @@ numberScaleValue = scaleValue.value[0] + scaleValue.value[1];
 numberScaleValue = Number(numberScaleValue);
 console.log(typeof numberScaleValue);
 
-
-uploadInputElement.addEventListener('change', function() {
+function openUserModal () {
   imgOverlay.classList.remove('hidden');
   console.log('Изображение загружено');
-});
+  document.addEventListener('keydown', onPopupEscKeydown);
+};
 
-closeButtonElement.addEventListener('click', function() {
+
+uploadInputElement.addEventListener('change', openUserModal);
+
+
+function closeUserModal() {
   document.body.classList.remove('modal-open');
   imgOverlay.classList.add('hidden');
   formElement.reset();
+  document.removeEventListener('keydown', onPopupEscKeydown);
+}
 
-});
-
-document.addEventListener('keydown', function(evt) {
+function onPopupEscKeydown(evt) {
   if (evt.key === 'Escape' && document.activeElement !== inputElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
     console.log(document.activeElement === inputElement);
-  }});
+  }
+}
+
+closeButtonElement.addEventListener('click', closeUserModal);
+
 
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('scale__control--smaller') && numberScaleValue > 25) {
@@ -171,3 +179,5 @@ effectsElement[0].addEventListener('change', function() {
 });
 
 export {uploadInputElement};
+export {openUserModal};
+export {closeUserModal};

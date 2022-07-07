@@ -1,3 +1,6 @@
+import { showAlert } from "./util.js";
+
+
 const formElement = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputComments = document.querySelector('.text__description');
@@ -79,11 +82,35 @@ pristine.addValidator(inputComments, function(value) {
   return false;
 }, 'Макс длина комментария 140 символов');
 
-formElement.addEventListener('submit', function(evt) {
-  const isValid = pristine.validate();
-  if (!isValid()) {
+
+function  setUserFormSubmit(onSuccess) {
+  formElement.addEventListener('submit', function(evt) {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch(
+        'https://26.javascript.pages.academy/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+      .then((response) => {
+        if (response.ok) {
+          onSuccess();
+        } else {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+        }
+      })
+      .catch((err) => {
+        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+      });
+    }
+  });
+}
+
 
 export {formElement};
+export {setUserFormSubmit};
