@@ -1,6 +1,5 @@
-import {Post} from './data.js';
 import {findElement} from './util.js';
-import {createLoader} from './load.js';
+import {createLoader} from './api.js';
 
 const dataFromServer=[];
 function returnData(data) {
@@ -32,9 +31,24 @@ function init() {
 
   const fragment = document.createDocumentFragment();
 
+  function onBigPictureEscKeydown(evt) {
+    if (evt.key ==='Escape') {
+      document.body.classList.remove('modal-open');
+      bigPicture.classList.add('hidden');
+    }};
+
+  function openBigPicture() {
+    bigPicture.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+    document.addEventListener('keydown', onBigPictureEscKeydown);
+  }
+
+
+
+
   for (const picture of allpictures) {
+    picture.addEventListener('click', openBigPicture);
     picture.addEventListener('click', function () {
-      document.body.classList.add('modal-open');
       bigPicture.querySelector('img').src = picture.querySelector('.picture__img').src;
       const pictureSrc =  picture.querySelector('.picture__img').src;
       let picId = '';
@@ -45,7 +59,6 @@ function init() {
         picId += pictureSrc[pictureSrc.length-6];
         picId += pictureSrc[pictureSrc.length-5];
       }
-      bigPicture.classList.remove('hidden');
       bigPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
       bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
 
@@ -75,7 +88,6 @@ function init() {
 
       // Реализуем показ только 5ти комментариев на странице
       const newListOfComments = document.querySelectorAll('.social__comment');
-      console.log(newListOfComments);
       if ( newListOfComments.length > 5 ) {
         for ( let i = 5; i < newListOfComments.length; i++ ) {
           newListOfComments[i].classList.add('hidden');
@@ -89,31 +101,28 @@ function init() {
       let countOfComments = 5;
       commentsLoader.addEventListener('click', function() {
         countOfComments += 5;
-        if (countOfComments <= newListOfComments.length) {
+        if (countOfComments < newListOfComments.length) {
           for (let i = 0; i < countOfComments; i++) {
             newListOfComments[i].classList.remove('hidden');
+          }
+        } else {
+          for (let i = 0; i < newListOfComments.length; i++) {
+            newListOfComments[i].classList.remove('hidden');
+            commentsLoader.classList.add('hidden');
           }
         }
       });
     }
     );
-
-
-    function closeBigPicture() {
-      bigPicture.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-    }
-
-
-    closeButton.addEventListener('click', closeBigPicture );
-
-    document.addEventListener('keydown', function(evt) {
-      if (evt.key ==='Escape') {
-        document.body.classList.remove('modal-open');
-        bigPicture.classList.add('hidden');
-      }});
   }
 
+  function closeBigPicture() {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    document.removeEventListener('keydown', onBigPictureEscKeydown);
+  }
+
+  closeButton.addEventListener('click', closeBigPicture );
   }
 
 
