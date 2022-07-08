@@ -1,6 +1,11 @@
+import { showAlert } from "./util.js";
+import { sendData } from "./api.js";
+
+
 const formElement = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputComments = document.querySelector('.text__description');
+const submitButton = document.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -79,11 +84,39 @@ pristine.addValidator(inputComments, function(value) {
   return false;
 }, 'Макс длина комментария 140 символов');
 
-formElement.addEventListener('submit', function(evt) {
-  const isValid = pristine.validate();
-  if (!isValid()) {
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+}
+
+
+function  setUserFormSubmit(onSuccess) {
+  formElement.addEventListener('submit', function (evt) {
     evt.preventDefault();
-  }
-});
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
 
 export {formElement};
+export {setUserFormSubmit};

@@ -14,25 +14,33 @@ numberScaleValue = scaleValue.value[0] + scaleValue.value[1];
 numberScaleValue = Number(numberScaleValue);
 console.log(typeof numberScaleValue);
 
-
-uploadInputElement.addEventListener('change', function() {
+function openUserModal () {
   imgOverlay.classList.remove('hidden');
   console.log('Изображение загружено');
-});
+  document.addEventListener('keydown', onPopupEscKeydown);
+};
 
-closeButtonElement.addEventListener('click', function() {
+
+uploadInputElement.addEventListener('change', openUserModal);
+
+
+function closeUserModal() {
   document.body.classList.remove('modal-open');
   imgOverlay.classList.add('hidden');
   formElement.reset();
+  document.removeEventListener('keydown', onPopupEscKeydown);
+}
 
-});
-
-document.addEventListener('keydown', function(evt) {
+function onPopupEscKeydown(evt) {
   if (evt.key === 'Escape' && document.activeElement !== inputElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
     console.log(document.activeElement === inputElement);
-  }});
+  }
+}
+
+closeButtonElement.addEventListener('click', closeUserModal);
+
 
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('scale__control--smaller') && numberScaleValue > 25) {
@@ -76,10 +84,10 @@ noUiSlider.create(sliderElement, {
   },
 });
 
-sliderElement.setAttribute('disabled', true);
+sliderElement.classList.add('hidden');
 
 effectsElement[1].addEventListener('change', function() {
-  sliderElement.removeAttribute('disabled');
+  sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     ImageElement.classList.add(`effects__preview--${effectsElement[1].value}`);
@@ -89,7 +97,7 @@ effectsElement[1].addEventListener('change', function() {
 });
 
 effectsElement[2].addEventListener('change', function() {
-  sliderElement.removeAttribute('disabled');
+  sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: 0,
@@ -109,7 +117,7 @@ effectsElement[2].addEventListener('change', function() {
 });
 
 effectsElement[3].addEventListener('change', function() {
-  sliderElement.removeAttribute('disabled');
+  sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: 0,
@@ -128,7 +136,7 @@ effectsElement[3].addEventListener('change', function() {
 });
 
 effectsElement[4].addEventListener('change', function() {
-  sliderElement.removeAttribute('disabled');
+  sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: 0,
@@ -148,7 +156,7 @@ effectsElement[4].addEventListener('change', function() {
 
 
 effectsElement[5].addEventListener('change', function() {
-  sliderElement.removeAttribute('disabled');
+  sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: 1,
@@ -167,7 +175,13 @@ effectsElement[5].addEventListener('change', function() {
 });
 
 effectsElement[0].addEventListener('change', function() {
-  sliderElement.setAttribute('disabled', true);
+  sliderElement.classList.add('hidden');
+  for (let i = 1; i< 5; i++) {
+    ImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
+  }
+  ImageElement.style.filter = null;
 });
 
 export {uploadInputElement};
+export {openUserModal};
+export {closeUserModal};
