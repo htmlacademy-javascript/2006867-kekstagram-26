@@ -1,19 +1,5 @@
 import {findElement} from './util.js';
-import {createLoader} from './api.js';
-
-const dataFromServer=[];
-function returnData(data) {
-  for (let i=0; i < data.length; i++) {
-    dataFromServer[i]=data[i];
-  }
-  return dataFromServer;
-}
-
-console.log(dataFromServer);
-
-const loadData = createLoader(returnData, console.error);
-await loadData();
-console.log(dataFromServer.length);
+import {dataFromServer} from './main.js';
 
 function init() {
   const bigPicture = document.querySelector('.big-picture');
@@ -127,5 +113,4 @@ function init() {
 
 
 // удалить комментарии при закрытии!!!!
-// если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 export {init};
