@@ -18,7 +18,7 @@ function openUserModal () {
   imgOverlay.classList.remove('hidden');
   console.log('Изображение загружено');
   document.addEventListener('keydown', onPopupEscKeydown);
-};
+}
 
 
 uploadInputElement.addEventListener('change', openUserModal);
@@ -90,7 +90,10 @@ effectsElement[1].addEventListener('change', function() {
   sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    ImageElement.classList.add(`effects__preview--${effectsElement[1].value}`);
+    for (let i = 1; i< 5; i++) {
+      uploadImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
+    }
+    uploadImageElement.classList.add(`effects__preview--${effectsElement[1].value}`);
     ImageElement.style.filter = `grayscale(${valueElement.value})`;
     console.log(uploadImageElement.style.filter);
   });
@@ -110,7 +113,10 @@ effectsElement[2].addEventListener('change', function() {
 
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    ImageElement.classList.add(`effects__preview--${effectsElement[2].value}`);
+    for (let i = 1; i< 5; i++) {
+      uploadImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
+    }
+    uploadImageElement.classList.add(`effects__preview--${effectsElement[2].value}`);
     ImageElement.style.filter = `sepia(${valueElement.value})`;
     console.log(uploadImageElement.style.filter);
   });
@@ -130,7 +136,10 @@ effectsElement[3].addEventListener('change', function() {
 
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    ImageElement.classList.add(`effects__preview--${effectsElement[3].value}`);
+    for (let i = 1; i< 5; i++) {
+      uploadImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
+    }
+    uploadImageElement.classList.add(`effects__preview--${effectsElement[3].value}`);
     uploadImageElement.style.filter = `invert(${valueElement.value}%)`;
   });
 });
@@ -149,7 +158,7 @@ effectsElement[4].addEventListener('change', function() {
 
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    ImageElement.classList.add(`effects__preview--${effectsElement[4].value}`);
+    uploadImageElement.classList.add(`effects__preview--${effectsElement[4].value}`);
     ImageElement.style.filter = `blur(${valueElement.value}px)`;
   });
 });
@@ -169,7 +178,10 @@ effectsElement[5].addEventListener('change', function() {
 
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
-    ImageElement.classList.add(`effects__preview--${effectsElement[5].value}`);
+    for (let i = 1; i< 5; i++) {
+      uploadImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
+    }
+    uploadImageElement.classList.add(`effects__preview--${effectsElement[5].value}`);
     ImageElement.style.filter = `brightness(${valueElement.value})`;
   });
 });
@@ -177,7 +189,7 @@ effectsElement[5].addEventListener('change', function() {
 effectsElement[0].addEventListener('change', function() {
   sliderElement.classList.add('hidden');
   for (let i = 1; i< 5; i++) {
-    ImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
+    uploadImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
   }
   ImageElement.style.filter = null;
 });

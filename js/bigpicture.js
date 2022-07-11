@@ -21,15 +21,13 @@ function init() {
     if (evt.key ==='Escape') {
       document.body.classList.remove('modal-open');
       bigPicture.classList.add('hidden');
-    }};
+    }}
 
   function openBigPicture() {
     bigPicture.classList.remove('hidden');
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', onBigPictureEscKeydown);
   }
-
-
 
 
   for (const picture of allpictures) {
@@ -102,14 +100,19 @@ function init() {
     );
   }
 
-  function closeBigPicture() {
+  function oncloseBigPicture() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', onBigPictureEscKeydown);
+    const updatedListofComments = document.querySelectorAll('.social__comment');
+    for (let i = 2; i < updatedListofComments.length; i++) {
+      updatedListofComments[i].remove();
+    }
+    console.log(updatedListofComments);
   }
 
-  closeButton.addEventListener('click', closeBigPicture );
-  }
+  closeButton.addEventListener('click', oncloseBigPicture );
+}
 
 
 // удалить комментарии при закрытии!!!!

@@ -2,15 +2,15 @@ const createLoader = (onSuccess, onError) => async () => {
   try {
     const res = await (await fetch('https://26.javascript.pages.academy/kekstagram/data'));
     if (res.ok) {
-      const jsonRes = await res.json()
+      const jsonRes = await res.json();
       onSuccess(jsonRes);
     } else {
       throw new Error(`${res.status} ${res.statusText}`);
     }
   } catch (err) {
-      onError(err);
-    }
+    onError(err);
   }
+};
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(

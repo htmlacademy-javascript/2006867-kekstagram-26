@@ -1,14 +1,7 @@
-import {createLoader} from './api.js';
-import { createRandomIdFromRangeGenerator } from './util.js';
-
 const pictures = document.querySelector('.pictures');
 const templateFragment = document.querySelector('#picture').content;
 const template = templateFragment.querySelector('a');
 const fragment = document.createDocumentFragment();
-const filterElement = document.querySelector('.img-filters');
-const filterDefaultElement = document.querySelector('#filter-default');
-const filterRandomElement = document.querySelector('#filter-random');
-const filterdiscussedElement = document.querySelector('#filter-discussed');
 
 
 function renderPublications(items) {
@@ -23,19 +16,5 @@ return pictures.appendChild(fragment);
 }
 
 
-function openFilter() {
-  filterElement.classList.remove('img-filters--inactive');
-}
-
-
-function renderRandomPublications() {
-  filterRandomElement.classList.add('img-filters__button--active');
-
-}
-
-
-
 export {pictures};
 export {renderPublications};
-export {openFilter};
-

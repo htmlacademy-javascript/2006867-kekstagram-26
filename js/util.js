@@ -58,10 +58,19 @@ const showAlert = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
-}
+};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
 
 export {getRandomArrayElement};
 export {createRandomIdFromRangeGenerator};
 export {getRandomInteger};
 export {findElement};
 export {showAlert};
+export {debounce};

@@ -1,5 +1,8 @@
 import { createRandomIdFromRangeGenerator } from './util.js';
 import { dataFromServer} from './main.js';
+import { debounce } from './util.js';
+
+const RERENDER_DELAY = 500;
 
 
 function filter() {
@@ -9,9 +12,6 @@ function filter() {
   const filterDefaultElement = document.querySelector('#filter-default');
   const filterRandomElement = document.querySelector('#filter-random');
   const filterDiscussedElement = document.querySelector('#filter-discussed');
-
-
-
 
 
   function openFilter() {
@@ -34,7 +34,6 @@ function filter() {
   console.log(ListOfRandomPublications);
 
 
-
   function onRandomFilter() {
     const pictures = document.querySelector('.pictures');
     const picturesElements = pictures.querySelectorAll('a');
@@ -52,10 +51,8 @@ function filter() {
       element.querySelector('.picture__comments').textContent = item.comments.length;
       fragment.appendChild(element);
     });
-      pictures.appendChild(fragment);
-      // filterDefaultElement.removeEventListener('click', onDefaultFilter);
-      // filterDiscussedElement.removeEventListener('click', onDiscussedFilter);
-    }
+    pictures.appendChild(fragment);
+  }
 
   filterRandomElement.addEventListener('click', onRandomFilter);
 
@@ -85,8 +82,6 @@ function filter() {
       fragment.appendChild(element);
     });
     pictures.appendChild(fragment);
-    // filterDefaultElement.removeEventListener('click', onDefaultFilter);
-    // filterRandomElement.removeEventListener('click', onRandomFilter);
   }
 
   filterDiscussedElement.addEventListener('click', onDiscussedFilter);
@@ -108,15 +103,10 @@ function filter() {
       element.querySelector('.picture__comments').textContent = item.comments.length;
       fragment.appendChild(element);
     });
-      pictures.appendChild(fragment);
-    // filterDiscussedElement.removeEventListener('click', onDiscussedFilter);
-    // filterRandomElement.removeEventListener('click', onRandomFilter);
+    pictures.appendChild(fragment);
   }
 
   filterDefaultElement.addEventListener('click', onDefaultFilter);
 }
-
-
-
 
 export {filter};

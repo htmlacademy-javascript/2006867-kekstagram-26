@@ -1,5 +1,5 @@
-import { showAlert } from "./util.js";
-import { sendData } from "./api.js";
+import { showAlert } from './util.js';
+import { sendData } from './api.js';
 
 
 const formElement = document.querySelector('.img-upload__form');
@@ -14,6 +14,7 @@ const pristine = new Pristine(formElement, {
 
 // Функция валидации хештегов
 const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+
 function hashtagValidate(text) {
   return regular.test(text);
 }
@@ -25,7 +26,7 @@ function checkSimilarElements(arr) {
 }
 
 function modifyArrHashTag(value) {
-  return value.toLowerCase().split(' ');
+  return value.trim().toLowerCase().split(' ');
 }
 
 
@@ -34,14 +35,8 @@ pristine.addValidator(inputHashtags, function(value) {
     return true;
   }
   return false;
-}, 'Допускается не более пяти хэштегов', false );
+}, 'Допускается не более пяти хэштегов ', false );
 
-pristine.addValidator(inputHashtags, function(value) {
-  if  (modifyArrHashTag(value).length === 1) {
-    return false;
-  }
-  return true;
-}, 'хеш-тег не может состоять только из одной решётки', false );
 
 pristine.addValidator(inputHashtags, function(value) {
   if (!checkSimilarElements(modifyArrHashTag(value))) {
@@ -70,12 +65,13 @@ pristine.addValidator(inputHashtags, function(value) {
 
 pristine.addValidator(inputHashtags, function(value) {
   for (let i = 0; i< modifyArrHashTag(value).length; i++) {
-    if (modifyArrHashTag(value)[i].length < 20) {
+    if (modifyArrHashTag(value)[i].length < 20 && modifyArrHashTag(value)[i].length >= 2) {
       return true;
     }
     return false;
   }
-}, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', false);
+}, 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
+
 
 pristine.addValidator(inputComments, function(value) {
   if (value.length < 140) {
@@ -84,12 +80,12 @@ pristine.addValidator(inputComments, function(value) {
   return false;
 }, 'Макс длина комментария 140 символов');
 
-const blockSubmitButton = () => {
+function blockSubmitButton () {
   submitButton.disabled = true;
   submitButton.textContent = 'Сохраняю...';
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton () {
   submitButton.disabled = false;
   submitButton.textContent = 'Сохранить';
 }
@@ -115,7 +111,7 @@ function  setUserFormSubmit(onSuccess) {
       );
     }
   });
-};
+}
 
 
 export {formElement};
