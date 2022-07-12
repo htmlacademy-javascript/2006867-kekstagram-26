@@ -11,10 +11,6 @@ function init() {
   const commentCount = bigPicture.querySelector('.social__comment-count ');
   const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-  console.log(pictures);
-  console.log(allpictures);
-
-
   const fragment = document.createDocumentFragment();
 
   function onBigPictureEscKeydown(evt) {
@@ -32,7 +28,7 @@ function init() {
 
   for (const picture of allpictures) {
     picture.addEventListener('click', openBigPicture);
-    picture.addEventListener('click', function () {
+    picture.addEventListener('click', () => {
       bigPicture.querySelector('img').src = picture.querySelector('.picture__img').src;
       const pictureSrc =  picture.querySelector('.picture__img').src;
       let picId = '';
@@ -46,12 +42,8 @@ function init() {
       bigPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
       bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
 
-      // const PictureId = Post.find(item => item.url === `photos/${picId}.jpg`).description;
-
-
       const descriptionOfPicture = findElement(dataFromServer, `photos/${picId}.jpg`, 'description');
       const objectsOfComments = findElement(dataFromServer, `photos/${picId}.jpg`, 'comments');
-      console.log(objectsOfComments);
       const numberOfComments = objectsOfComments.length;
       if (numberOfComments < 5) {
         commentCount.childNodes[0].textContent= `${numberOfComments} из `;
@@ -83,7 +75,7 @@ function init() {
 
       // Реализуем добавление комментариев при нажатии "Загрузить еще"
       let countOfComments = 5;
-      commentsLoader.addEventListener('click', function() {
+      commentsLoader.addEventListener('click', () => {
         countOfComments += 5;
         if (countOfComments < newListOfComments.length) {
           for (let i = 0; i < countOfComments; i++) {
@@ -108,12 +100,10 @@ function init() {
     for (let i = 2; i < updatedListofComments.length; i++) {
       updatedListofComments[i].remove();
     }
-    console.log(updatedListofComments);
   }
 
   closeButton.addEventListener('click', oncloseBigPicture );
 }
-
 
 // удалить комментарии при закрытии!!!!
 export {init};

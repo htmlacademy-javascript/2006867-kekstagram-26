@@ -30,7 +30,7 @@ function modifyArrHashTag(value) {
 }
 
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   if  (modifyArrHashTag(value).length <= 5) {
     return true;
   }
@@ -38,14 +38,14 @@ pristine.addValidator(inputHashtags, function(value) {
 }, 'Допускается не более пяти хэштегов ', false );
 
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   if (!checkSimilarElements(modifyArrHashTag(value))) {
     return true;
   }
   return false;
 }, 'Хештеги должны быть разными', false);
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   for (let i = 0; i < modifyArrHashTag(value).length; i++) {
     if (hashtagValidate(modifyArrHashTag(value)[i])) {
       return true;
@@ -54,7 +54,7 @@ pristine.addValidator(inputHashtags, function(value) {
   }
 }, 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   for (let i = 0; i < modifyArrHashTag(value).length; i++) {
     if (modifyArrHashTag(value)[i].startsWith('#')) {
       return true;
@@ -63,7 +63,7 @@ pristine.addValidator(inputHashtags, function(value) {
   }
 }, 'Хештег должен начинаться с #', false);
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   for (let i = 0; i< modifyArrHashTag(value).length; i++) {
     if (modifyArrHashTag(value)[i].length < 20 && modifyArrHashTag(value)[i].length >= 2) {
       return true;
@@ -73,7 +73,7 @@ pristine.addValidator(inputHashtags, function(value) {
 }, 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
 
 
-pristine.addValidator(inputComments, function(value) {
+pristine.addValidator(inputComments, (value) => {
   if (value.length < 140) {
     return true;
   }
@@ -92,7 +92,7 @@ function unblockSubmitButton () {
 
 
 function  setUserFormSubmit(onSuccess) {
-  formElement.addEventListener('submit', function (evt) {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();

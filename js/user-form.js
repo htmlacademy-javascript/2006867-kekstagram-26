@@ -12,19 +12,17 @@ const uploadImageElement = ImageElement.querySelector('img');
 let numberScaleValue = '';
 numberScaleValue = scaleValue.value[0] + scaleValue.value[1];
 numberScaleValue = Number(numberScaleValue);
-console.log(typeof numberScaleValue);
 
-function openUserModal () {
+function onOpenUserModal () {
   imgOverlay.classList.remove('hidden');
-  console.log('Изображение загружено');
   document.addEventListener('keydown', onPopupEscKeydown);
 }
 
 
-uploadInputElement.addEventListener('change', openUserModal);
+uploadInputElement.addEventListener('change', onOpenUserModal);
 
 
-function closeUserModal() {
+function onCloseUserModal() {
   document.body.classList.remove('modal-open');
   imgOverlay.classList.add('hidden');
   formElement.reset();
@@ -35,14 +33,13 @@ function onPopupEscKeydown(evt) {
   if (evt.key === 'Escape' && document.activeElement !== inputElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
-    console.log(document.activeElement === inputElement);
   }
 }
 
-closeButtonElement.addEventListener('click', closeUserModal);
+closeButtonElement.addEventListener('click', onCloseUserModal);
 
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', (e) => {
   if (e.target.classList.contains('scale__control--smaller') && numberScaleValue > 25) {
     numberScaleValue -= 25;
     scaleValue.value = `${numberScaleValue} %`;
@@ -61,7 +58,7 @@ document.addEventListener('click', function(e) {
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 const effectsElement = document.querySelectorAll('.effects__radio');
-console.log(uploadImageElement);
+
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -86,7 +83,7 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.classList.add('hidden');
 
-effectsElement[1].addEventListener('change', function() {
+effectsElement[1].addEventListener('change', () => {
   sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
@@ -95,11 +92,10 @@ effectsElement[1].addEventListener('change', function() {
     }
     uploadImageElement.classList.add(`effects__preview--${effectsElement[1].value}`);
     ImageElement.style.filter = `grayscale(${valueElement.value})`;
-    console.log(uploadImageElement.style.filter);
   });
 });
 
-effectsElement[2].addEventListener('change', function() {
+effectsElement[2].addEventListener('change', () => {
   sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -118,11 +114,10 @@ effectsElement[2].addEventListener('change', function() {
     }
     uploadImageElement.classList.add(`effects__preview--${effectsElement[2].value}`);
     ImageElement.style.filter = `sepia(${valueElement.value})`;
-    console.log(uploadImageElement.style.filter);
   });
 });
 
-effectsElement[3].addEventListener('change', function() {
+effectsElement[3].addEventListener('change', () => {
   sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -144,7 +139,7 @@ effectsElement[3].addEventListener('change', function() {
   });
 });
 
-effectsElement[4].addEventListener('change', function() {
+effectsElement[4].addEventListener('change', () => {
   sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -164,7 +159,7 @@ effectsElement[4].addEventListener('change', function() {
 });
 
 
-effectsElement[5].addEventListener('change', function() {
+effectsElement[5].addEventListener('change', () => {
   sliderElement.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -186,7 +181,7 @@ effectsElement[5].addEventListener('change', function() {
   });
 });
 
-effectsElement[0].addEventListener('change', function() {
+effectsElement[0].addEventListener('change', () => {
   sliderElement.classList.add('hidden');
   for (let i = 1; i< 5; i++) {
     uploadImageElement.classList.remove(`effects__preview--${effectsElement[i].value}`);
@@ -195,5 +190,5 @@ effectsElement[0].addEventListener('change', function() {
 });
 
 export {uploadInputElement};
-export {openUserModal};
-export {closeUserModal};
+export {onOpenUserModal};
+export {onCloseUserModal};

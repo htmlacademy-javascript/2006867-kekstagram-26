@@ -1,13 +1,12 @@
 import { createRandomIdFromRangeGenerator } from './util.js';
 import { dataFromServer} from './main.js';
+import { init } from './bigpicture.js';
 import { debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
 
 
 function filter() {
-
-
   const filterElement = document.querySelector('.img-filters');
   const filterDefaultElement = document.querySelector('#filter-default');
   const filterRandomElement = document.querySelector('#filter-random');
@@ -31,7 +30,6 @@ function filter() {
   }
 
   const ListOfRandomPublications = renderRandomPublications();
-  console.log(ListOfRandomPublications);
 
 
   function onRandomFilter() {
@@ -42,7 +40,7 @@ function filter() {
     filterDefaultElement.classList.remove('img-filters__button--active');
     filterDiscussedElement.classList.remove('img-filters__button--active');
     filterRandomElement.classList.add('img-filters__button--active');
-    picturesElements.forEach(element => element.remove());
+    picturesElements.forEach(item => item.remove());
     const fragment = document.createDocumentFragment();
     ListOfRandomPublications.forEach(item => {
       const element = template.cloneNode(true);
@@ -55,12 +53,11 @@ function filter() {
   }
 
   filterRandomElement.addEventListener('click', onRandomFilter);
+  filterRandomElement.addEventListener('click', init);
 
-  const ListOfDisccussedPublications = dataFromServer.sort(function (a, b) {
+  const ListOfDisccussedPublications = dataFromServer.sort((a, b) => {
     return a.likes - b.likes;
   });
-
-  console.log(ListOfDisccussedPublications);
 
   function onDiscussedFilter() {
     const pictures = document.querySelector('.pictures');
@@ -85,6 +82,7 @@ function filter() {
   }
 
   filterDiscussedElement.addEventListener('click', onDiscussedFilter);
+  filterDiscussedElement.addEventListener('click', init);
 
   function onDefaultFilter(){
     const pictures = document.querySelector('.pictures');
@@ -107,6 +105,7 @@ function filter() {
   }
 
   filterDefaultElement.addEventListener('click', onDefaultFilter);
+  filterDefaultElement.addEventListener('click', init);
 }
 
 export {filter};

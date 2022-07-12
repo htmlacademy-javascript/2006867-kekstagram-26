@@ -7,12 +7,6 @@ function getRandomInteger(a, b) {
   return Math.floor(result);
 }
 
-function checkLength(str, max) {
-  if (str.length <= max) {
-    return true;
-  }
-  return false;
-}
 
 function createRandomIdFromRangeGenerator (min, max, numberOfElements) {
   const randomArray= [];
