@@ -7,7 +7,59 @@ const inputElement = document.querySelector('.text__hashtags');
 const scaleValue = document.querySelector('.scale__control--value');
 const ImageElement = document.querySelector('.img-upload__preview');
 const uploadImageElement = ImageElement.querySelector('img');
+const successMessageElement = document.querySelector('#success');
+const errorMessageElement = document.querySelector('#error');
 
+
+function showMessageSuccess() {
+  const successMessageTemplate = successMessageElement.content.firstElementChild;
+  successMessageTemplate.cloneNode(true);
+  document.body.append(successMessageTemplate);
+};
+
+
+function onCloseMessageSuccess() {
+  const successMessage = document.querySelector('.success');
+  successMessage.remove();
+}
+
+function onSuccesEscKeydown(evt) {
+  if (evt.key === 'Escape') {
+    const successMessage = document.querySelector('.success');
+    successMessage.remove();
+  }
+}
+
+
+function closeMessageSuccess() {
+  const successButtonElement = document.querySelector('.success__button');
+  document.addEventListener('click', onSuccesEscKeydown);
+  successButtonElement.addEventListener('click', onCloseMessageSuccess);
+}
+
+function showMessageError() {
+  const errorMessageTemplate = errorMessageElement.content.firstElementChild;
+  errorMessageTemplate.cloneNode(true);
+  document.body.append(errorMessageTemplate);
+}
+
+function onCloseMessageError() {
+  const errorMessage = document.querySelector('.error');
+  errorMessage.remove();
+}
+
+function onErrorEscKeydown(evt) {
+  if (evt.key === 'Escape') {
+    const errorMessage = document.querySelector('.error');
+    errorMessage.remove();
+  };
+}
+
+function closeMessageError() {
+  const errorButtonElement = document.querySelector('.error__button');
+  document.addEventListener('click', onErrorEscKeydown);
+  errorButtonElement.addEventListener('click', onCloseMessageError);
+}
 
 let numberScaleValue = '';
 numberScaleValue = scaleValue.value[0] + scaleValue.value[1];
@@ -192,3 +244,7 @@ effectsElement[0].addEventListener('change', () => {
 export {uploadInputElement};
 export {onOpenUserModal};
 export {onCloseUserModal};
+export {showMessageSuccess};
+export {closeMessageSuccess};
+export {showMessageError};
+export {closeMessageError};

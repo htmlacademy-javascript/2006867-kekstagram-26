@@ -1,6 +1,9 @@
 import { showAlert } from './util.js';
 import { sendData } from './api.js';
-
+import { showMessageSuccess } from './user-form.js';
+import { closeMessageSuccess } from './user-form.js';
+import { showMessageError } from './user-form.js';
+import { closeMessageError } from './user-form.js';
 
 const formElement = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
@@ -102,10 +105,14 @@ function  setUserFormSubmit(onSuccess) {
         () => {
           onSuccess();
           unblockSubmitButton();
+          showMessageSuccess();
+          closeMessageSuccess();
         },
         () => {
           showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
           unblockSubmitButton();
+          showMessageError();
+          closeMessageError();
         },
         new FormData(evt.target),
       );
