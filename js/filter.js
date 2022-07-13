@@ -19,20 +19,21 @@ function filter() {
 
   openFilter();
 
-  const newIdOfRandomPublications = createRandomIdFromRangeGenerator(0, dataFromServer.length-1, 10);
 
-  function renderRandomPublications() {
-    const newRandomListOfPublications = [];
-    for (let i = 0; i < 10; i++) {
-      newRandomListOfPublications.push(dataFromServer[newIdOfRandomPublications[i]]);
-    }
-    return newRandomListOfPublications;
-  }
-
-  const ListOfRandomPublications = renderRandomPublications();
 
 
   function onRandomFilter() {
+    const newIdOfRandomPublications = createRandomIdFromRangeGenerator(0, dataFromServer.length-1, 10);
+
+    function renderRandomPublications() {
+      const newRandomListOfPublications = [];
+      for (let i = 0; i < 10; i++) {
+        newRandomListOfPublications.push(dataFromServer[newIdOfRandomPublications[i]]);
+      }
+      return newRandomListOfPublications;
+    }
+
+    const ListOfRandomPublications = renderRandomPublications();
     const pictures = document.querySelector('.pictures');
     const picturesElements = pictures.querySelectorAll('a');
     const templateFragment = document.querySelector('#picture').content;
