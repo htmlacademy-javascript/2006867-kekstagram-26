@@ -54,12 +54,13 @@ function filter() {
       evt.target.classList.add('img-filters__button--active');
       filterDefaultElement.classList.remove('img-filters__button--active');
       filterDiscussedElement.classList.remove('img-filters__button--active');
-      init();
       cb();
     });
   };
 
   setRandomFilter(debounce(() => onRandomFilter(), RERENDER_DELAY));
+  filterRandomElement.addEventListener('click', init);
+
 
   const ListOfDisccussedPublications = dataFromServer.sort((a, b) => {
     return b.likes - a.likes;
@@ -87,12 +88,12 @@ function filter() {
       evt.target.classList.add('img-filters__button--active');
       filterDefaultElement.classList.remove('img-filters__button--active');
       filterRandomElement.classList.remove('img-filters__button--active');
-      init();
       cb();
     });
   };
 
   setDiscussedFilter(debounce(() => onDiscussedFilter(), RERENDER_DELAY));
+  filterDiscussedElement.addEventListener('click', init);
 
 
   function onDefaultFilter(){
@@ -117,12 +118,12 @@ function filter() {
       evt.target.classList.add('img-filters__button--active');
       filterDiscussedElement.classList.remove('img-filters__button--active');
       filterRandomElement.classList.remove('img-filters__button--active');
-      init();
       cb();
     });
   };
 
   setDefaultFilter(debounce( () => onDefaultFilter(), RERENDER_DELAY));
+  filterRandomElement.addEventListener('click', init);
 }
 
 export {filter};
