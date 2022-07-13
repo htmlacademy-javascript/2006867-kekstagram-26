@@ -85,6 +85,7 @@ function onPopupEscKeydown(evt) {
   if (evt.key === 'Escape' && document.activeElement !== inputElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
+    formElement.reset();
   }
 }
 

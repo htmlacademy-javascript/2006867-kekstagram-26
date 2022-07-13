@@ -1,12 +1,11 @@
 import { createRandomIdFromRangeGenerator } from './util.js';
-import { dataFromServer} from './main.js';
 import { init } from './bigpicture.js';
 import { debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
 
 
-function filter() {
+function filter(dataFromServer) {
   const filterElement = document.querySelector('.img-filters');
   const filterDefaultElement = document.querySelector('#filter-default');
   const filterRandomElement = document.querySelector('#filter-random');
@@ -19,7 +18,34 @@ function filter() {
 
   openFilter();
 
+  function onDefaultFilter(){
+    const pictures = document.querySelector('.pictures');
+    const picturesElements = pictures.querySelectorAll('a');
+    const templateFragment = document.querySelector('#picture').content;
+    const template = templateFragment.querySelector('a');
+    picturesElements.forEach(element => element.remove());
+    const fragment = document.createDocumentFragment();
+    dataFromServer.forEach(item => {
+      const element = template.cloneNode(true);
+      element.querySelector('.picture__img').src=item.url;
+      element.querySelector('.picture__likes').textContent=item.likes;
+      element.querySelector('.picture__comments').textContent = item.comments.length;
+      fragment.appendChild(element);
+    });
+    pictures.appendChild(fragment);
+  }
 
+  const setDefaultFilter = (cb) => {
+    filterDefaultElement.addEventListener('click', (evt) => {
+      evt.target.classList.add('img-filters__button--active');
+      filterDiscussedElement.classList.remove('img-filters__button--active');
+      filterRandomElement.classList.remove('img-filters__button--active');
+      cb();
+    });
+  };
+
+  setDefaultFilter(debounce( () => onDefaultFilter(), RERENDER_DELAY));
+  filterDefaultElement.addEventListener('click', init);
 
 
   function onRandomFilter() {
@@ -63,7 +89,8 @@ function filter() {
   filterRandomElement.addEventListener('click', init);
 
 
-  const ListOfDisccussedPublications = dataFromServer.sort((a, b) => {
+  const clonedDataFromServer = dataFromServer.slice(0);
+  const ListOfDisccussedPublications = clonedDataFromServer.sort((a, b) => {
     return b.likes - a.likes;
   });
 
@@ -95,36 +122,6 @@ function filter() {
 
   setDiscussedFilter(debounce(() => onDiscussedFilter(), RERENDER_DELAY));
   filterDiscussedElement.addEventListener('click', init);
-
-
-  function onDefaultFilter(){
-    const pictures = document.querySelector('.pictures');
-    const picturesElements = pictures.querySelectorAll('a');
-    const templateFragment = document.querySelector('#picture').content;
-    const template = templateFragment.querySelector('a');
-    picturesElements.forEach(element => element.remove());
-    const fragment = document.createDocumentFragment();
-    dataFromServer.forEach(item => {
-      const element = template.cloneNode(true);
-      element.querySelector('.picture__img').src=item.url;
-      element.querySelector('.picture__likes').textContent=item.likes;
-      element.querySelector('.picture__comments').textContent = item.comments.length;
-      fragment.appendChild(element);
-    });
-    pictures.appendChild(fragment);
-  }
-
-  const setDefaultFilter = (cb) => {
-    filterDefaultElement.addEventListener('click', (evt) => {
-      evt.target.classList.add('img-filters__button--active');
-      filterDiscussedElement.classList.remove('img-filters__button--active');
-      filterRandomElement.classList.remove('img-filters__button--active');
-      cb();
-    });
-  };
-
-  setDefaultFilter(debounce( () => onDefaultFilter(), RERENDER_DELAY));
-  filterDefaultElement.addEventListener('click', init);
 }
 
 export {filter};

@@ -1,7 +1,7 @@
 import {findElement} from './util.js';
-import {dataFromServer} from './main.js';
 
-function init() {
+
+function init(dataFromServer) {
   const bigPicture = document.querySelector('.big-picture');
   const closeButton = document.querySelector('.big-picture__cancel');
   const pictures = document.querySelector('.pictures');
