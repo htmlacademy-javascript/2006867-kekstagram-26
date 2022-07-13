@@ -27,6 +27,8 @@ init();
 
 setUserFormSubmit(onCloseUserModal);
 
+setUserFormSubmit()
+
 export {dataFromServer};
 
 

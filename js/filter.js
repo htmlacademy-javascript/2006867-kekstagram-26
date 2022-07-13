@@ -123,7 +123,7 @@ function filter() {
   };
 
   setDefaultFilter(debounce( () => onDefaultFilter(), RERENDER_DELAY));
-  filterRandomElement.addEventListener('click', init);
+  filterDefaultElement.addEventListener('click', init);
 }
 
 export {filter};
