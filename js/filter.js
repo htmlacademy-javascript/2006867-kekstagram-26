@@ -37,9 +37,6 @@ function filter() {
     const picturesElements = pictures.querySelectorAll('a');
     const templateFragment = document.querySelector('#picture').content;
     const template = templateFragment.querySelector('a');
-    filterDefaultElement.classList.remove('img-filters__button--active');
-    filterDiscussedElement.classList.remove('img-filters__button--active');
-    filterRandomElement.classList.add('img-filters__button--active');
     picturesElements.forEach(item => item.remove());
     const fragment = document.createDocumentFragment();
     ListOfRandomPublications.forEach(item => {
@@ -52,11 +49,20 @@ function filter() {
     pictures.appendChild(fragment);
   }
 
-  filterRandomElement.addEventListener('click', onRandomFilter);
-  filterRandomElement.addEventListener('click', init);
+  const setRandomFilter = (cb) => {
+    filterRandomElement.addEventListener('click', (evt) => {
+      evt.target.classList.add('img-filters__button--active');
+      filterDefaultElement.classList.remove('img-filters__button--active');
+      filterDiscussedElement.classList.remove('img-filters__button--active');
+      init();
+      cb();
+    });
+  };
+
+  setRandomFilter(debounce(() => onRandomFilter(), RERENDER_DELAY));
 
   const ListOfDisccussedPublications = dataFromServer.sort((a, b) => {
-    return a.likes - b.likes;
+    return b.likes - a.likes;
   });
 
   function onDiscussedFilter() {
@@ -64,12 +70,7 @@ function filter() {
     const picturesElements = pictures.querySelectorAll('a');
     const templateFragment = document.querySelector('#picture').content;
     const template = templateFragment.querySelector('a');
-
-    filterDefaultElement.classList.remove('img-filters__button--active');
-    filterRandomElement.classList.remove('img-filters__button--active');
-    filterDiscussedElement.classList.add('img-filters__button--active');
     picturesElements.forEach(element => element.remove());
-
     const fragment = document.createDocumentFragment();
     ListOfDisccussedPublications.forEach(item => {
       const element = template.cloneNode(true);
@@ -81,17 +82,24 @@ function filter() {
     pictures.appendChild(fragment);
   }
 
-  filterDiscussedElement.addEventListener('click', onDiscussedFilter);
-  filterDiscussedElement.addEventListener('click', init);
+  const setDiscussedFilter = (cb) => {
+    filterDiscussedElement.addEventListener('click', (evt) => {
+      evt.target.classList.add('img-filters__button--active');
+      filterDefaultElement.classList.remove('img-filters__button--active');
+      filterRandomElement.classList.remove('img-filters__button--active');
+      init();
+      cb();
+    });
+  };
+
+  setDiscussedFilter(debounce(() => onDiscussedFilter(), RERENDER_DELAY));
+
 
   function onDefaultFilter(){
     const pictures = document.querySelector('.pictures');
     const picturesElements = pictures.querySelectorAll('a');
     const templateFragment = document.querySelector('#picture').content;
     const template = templateFragment.querySelector('a');
-    filterRandomElement.classList.remove('img-filters__button--active');
-    filterDiscussedElement.classList.remove('img-filters__button--active');
-    filterDefaultElement.classList.add('img-filters__button--active');
     picturesElements.forEach(element => element.remove());
     const fragment = document.createDocumentFragment();
     dataFromServer.forEach(item => {
@@ -104,8 +112,17 @@ function filter() {
     pictures.appendChild(fragment);
   }
 
-  filterDefaultElement.addEventListener('click', onDefaultFilter);
-  filterDefaultElement.addEventListener('click', init);
+  const setDefaultFilter = (cb) => {
+    filterDefaultElement.addEventListener('click', (evt) => {
+      evt.target.classList.add('img-filters__button--active');
+      filterDiscussedElement.classList.remove('img-filters__button--active');
+      filterRandomElement.classList.remove('img-filters__button--active');
+      init();
+      cb();
+    });
+  };
+
+  setDefaultFilter(debounce( () => onDefaultFilter(), RERENDER_DELAY));
 }
 
 export {filter};
