@@ -16,9 +16,11 @@ function renderFilteredPublications(arr) {
     element.querySelector('.picture__img').src=item.url;
     element.querySelector('.picture__likes').textContent=item.likes;
     element.querySelector('.picture__comments').textContent = item.comments.length;
+    element.dataset.id  =  item.id;
     fragment.appendChild(element);
-    });
+  });
   pictures.appendChild(fragment);
+
 }
 
 function filter(dataFromServer) {
@@ -60,6 +62,7 @@ function filter(dataFromServer) {
     }
     const ListOfRandomPublications = renderRandomPublications();
     renderFilteredPublications(ListOfRandomPublications);
+    renderFullSize(ListOfRandomPublications);
   }
 
   const setRandomFilter = (cb) => {
@@ -72,7 +75,6 @@ function filter(dataFromServer) {
   };
 
   setRandomFilter(debounce(() => onRandomFilter(), RERENDER_DELAY));
-  filterRandomElement.addEventListener('click', renderFullSize);
 
 
   const clonedDataFromServer = dataFromServer.slice(0);
@@ -82,6 +84,7 @@ function filter(dataFromServer) {
 
   function onDiscussedFilter() {
     renderFilteredPublications(ListOfDisccussedPublications);
+    renderFullSize(ListOfDisccussedPublications);
   }
 
   const setDiscussedFilter = (cb) => {
@@ -94,7 +97,6 @@ function filter(dataFromServer) {
   };
 
   setDiscussedFilter(debounce(() => onDiscussedFilter(), RERENDER_DELAY));
-  filterDiscussedElement.addEventListener('click', renderFullSize);
 }
 
 export {filter};

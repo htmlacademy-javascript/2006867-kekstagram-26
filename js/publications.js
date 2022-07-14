@@ -13,8 +13,8 @@ function renderPublications(items) {
     element.dataset.id  =  item.id;
     fragment.appendChild(element);
   });
-    pictures.appendChild(fragment);
-};
+  pictures.appendChild(fragment);
+}
 
 
 export {pictures};

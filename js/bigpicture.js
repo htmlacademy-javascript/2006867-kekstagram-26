@@ -2,7 +2,6 @@ import {findElement, isEscapeKey} from './util.js';
 
 let countOfComments = 5;
 
-
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
 const socialItem = document.querySelector('.social__comment');
