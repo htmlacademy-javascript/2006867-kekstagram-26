@@ -25,9 +25,9 @@ function getRandomArrayElement(elements) {
 
 const findElement = function(array, key, field) {
   for (let i=0; i<array.length; i++) {
-    if (array[i].url===key && field==='description') {
+    if (array[i].id===key && field==='description') {
       return array[i].description;}
-    if (array[i].url===key && field ==='comments')  {
+    if (array[i].id===key && field ==='comments')  {
       return array[i].comments;
     }
   }
@@ -62,9 +62,14 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
+}
+
 export {getRandomArrayElement};
 export {createRandomIdFromRangeGenerator};
 export {getRandomInteger};
 export {findElement};
+export {isEscapeKey};
 export {showAlert};
 export {debounce};

@@ -109,7 +109,6 @@ function  setUserFormSubmit(onSuccess) {
           closeMessageSuccess();
         },
         () => {
-          showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
           unblockSubmitButton();
           showMessageError();
           closeMessageError();

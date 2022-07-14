@@ -1,5 +1,5 @@
 import { createRandomIdFromRangeGenerator } from './util.js';
-import { init } from './bigpicture.js';
+import { renderFullSize } from './bigpicture.js';
 import { debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
@@ -10,7 +10,6 @@ function filter(dataFromServer) {
   const filterDefaultElement = document.querySelector('#filter-default');
   const filterRandomElement = document.querySelector('#filter-random');
   const filterDiscussedElement = document.querySelector('#filter-discussed');
-
 
   function openFilter() {
     filterElement.classList.remove('img-filters--inactive');
@@ -45,7 +44,6 @@ function filter(dataFromServer) {
   };
 
   setDefaultFilter(debounce( () => onDefaultFilter(), RERENDER_DELAY));
-  filterDefaultElement.addEventListener('click', init);
 
 
   function onRandomFilter() {
@@ -74,6 +72,7 @@ function filter(dataFromServer) {
       fragment.appendChild(element);
     });
     pictures.appendChild(fragment);
+
   }
 
   const setRandomFilter = (cb) => {
@@ -86,7 +85,7 @@ function filter(dataFromServer) {
   };
 
   setRandomFilter(debounce(() => onRandomFilter(), RERENDER_DELAY));
-  filterRandomElement.addEventListener('click', init);
+  filterRandomElement.addEventListener('click', renderFullSize);
 
 
   const clonedDataFromServer = dataFromServer.slice(0);
@@ -121,7 +120,7 @@ function filter(dataFromServer) {
   };
 
   setDiscussedFilter(debounce(() => onDiscussedFilter(), RERENDER_DELAY));
-  filterDiscussedElement.addEventListener('click', init);
+  filterDiscussedElement.addEventListener('click', renderFullSize);
 }
 
 export {filter};

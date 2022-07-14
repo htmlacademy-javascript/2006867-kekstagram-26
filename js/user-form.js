@@ -15,7 +15,7 @@ function showMessageSuccess() {
   const successMessageTemplate = successMessageElement.content.firstElementChild;
   successMessageTemplate.cloneNode(true);
   document.body.append(successMessageTemplate);
-};
+}
 
 
 function onCloseMessageSuccess() {
@@ -52,7 +52,7 @@ function onErrorEscKeydown(evt) {
   if (evt.key === 'Escape') {
     const errorMessage = document.querySelector('.error');
     errorMessage.remove();
-  };
+  }
 }
 
 function closeMessageError() {
