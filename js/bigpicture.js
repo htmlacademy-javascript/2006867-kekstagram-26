@@ -5,11 +5,9 @@ let countOfComments = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
-const socialItem = document.querySelector('.social_comment');
+const socialItem = document.querySelector('.social__comment');
 const socialComments = bigPicture.querySelector('.social__comments');
-
-
-
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 function onBigPictureEscKeydown() {
   if (isEscapeKey) {
@@ -29,7 +27,7 @@ function renderFullSize(elem) {
   const allpictures =pictures.querySelectorAll('a');
 
   const commentCount = bigPicture.querySelector('.social__comment-count ');
-  const commentsLoader = bigPicture.querySelector('.comments-loader');
+
 
   for (const picture of allpictures) {
     picture.addEventListener('click', openBigPicture);
@@ -41,13 +39,16 @@ function renderFullSize(elem) {
       bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
       const descriptionOfPicture = findElement(elem, picId, 'description');
       const objectsOfComments = findElement(elem, picId, 'comments');
+      console.log(objectsOfComments);
       const numberOfComments = objectsOfComments.length;
+      console.log(numberOfComments);
       if (numberOfComments < 5) {
         commentCount.childNodes[0].textContent= `${numberOfComments} из `;
       }
       bigPicture.querySelector('.comments-count').textContent = objectsOfComments.length;
       bigPicture.querySelector('.social__caption').textContent = descriptionOfPicture ;
       socialComments.innerHTML = '';
+      console.log(socialComments);
       showComments(objectsOfComments);
       commentsLoader.addEventListener('click', () => showRestComments(objectsOfComments));
     });
@@ -67,11 +68,15 @@ function createCommentsList(arr, item, root) {
 }
 
 const newListOfComments = document.querySelectorAll('.social__comment');
+console.log(newListOfComments);
+
+
 function showComments(arr) {
   createCommentsList(arr, socialItem, socialComments);
-  if ( newListOfComments.length > 5 ) {
-    for ( let i = 5; i < newListOfComments.length; i++ ) {
-      newListOfComments[i].classList.add('hidden');
+  const listofComments = bigPicture.querySelectorAll('.social__comment');
+  if ( arr.length > 5 ) {
+    for ( let i = 5; i < arr.length; i++ ) {
+      listofComments[i].classList.add('hidden');
     }
   }
   else {
@@ -80,28 +85,26 @@ function showComments(arr) {
 }
 
 
-function showRestComments() {
+function showRestComments(arr) {
   countOfComments += 5;
-  if (countOfComments < newListOfComments.length) {
+  const listofComments = bigPicture.querySelectorAll('.social__comment');
+  if (countOfComments < arr.length) {
     for (let i = 0; i < countOfComments; i++) {
-      newListOfComments[i].classList.remove('hidden');
+      listofComments[i].classList.remove('hidden');
     }
   } else {
-    for (let i = 0; i < newListOfComments.length; i++) {
-      newListOfComments[i].classList.remove('hidden');
+    for (let i = 0; i < arr.length; i++) {
+      listofComments[i].classList.remove('hidden');
       commentsLoader.classList.add('hidden');
     }
   }
 }
 
+
 function oncloseBigPicture() {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPictureEscKeydown);
-  const updatedListofComments = document.querySelectorAll('.social__comment');
-  for (let i = 2; i < updatedListofComments.length; i++) {
-    updatedListofComments[i].remove();
-  }
 }
 
 closeButton.addEventListener('click', oncloseBigPicture );

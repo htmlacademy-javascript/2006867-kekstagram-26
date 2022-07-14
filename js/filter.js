@@ -4,6 +4,22 @@ import { debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
 
+function renderFilteredPublications(arr) {
+  const pictures = document.querySelector('.pictures');
+  const picturesElements = pictures.querySelectorAll('a');
+  const templateFragment = document.querySelector('#picture').content;
+  const template = templateFragment.querySelector('a');
+  picturesElements.forEach(element => element.remove());
+  const fragment = document.createDocumentFragment();
+  arr.forEach(item => {
+    const element = template.cloneNode(true);
+    element.querySelector('.picture__img').src=item.url;
+    element.querySelector('.picture__likes').textContent=item.likes;
+    element.querySelector('.picture__comments').textContent = item.comments.length;
+    fragment.appendChild(element);
+    });
+  pictures.appendChild(fragment);
+}
 
 function filter(dataFromServer) {
   const filterElement = document.querySelector('.img-filters');
@@ -18,20 +34,7 @@ function filter(dataFromServer) {
   openFilter();
 
   function onDefaultFilter(){
-    const pictures = document.querySelector('.pictures');
-    const picturesElements = pictures.querySelectorAll('a');
-    const templateFragment = document.querySelector('#picture').content;
-    const template = templateFragment.querySelector('a');
-    picturesElements.forEach(element => element.remove());
-    const fragment = document.createDocumentFragment();
-    dataFromServer.forEach(item => {
-      const element = template.cloneNode(true);
-      element.querySelector('.picture__img').src=item.url;
-      element.querySelector('.picture__likes').textContent=item.likes;
-      element.querySelector('.picture__comments').textContent = item.comments.length;
-      fragment.appendChild(element);
-    });
-    pictures.appendChild(fragment);
+    renderFilteredPublications(dataFromServer);
   }
 
   const setDefaultFilter = (cb) => {
@@ -48,7 +51,6 @@ function filter(dataFromServer) {
 
   function onRandomFilter() {
     const newIdOfRandomPublications = createRandomIdFromRangeGenerator(0, dataFromServer.length-1, 10);
-
     function renderRandomPublications() {
       const newRandomListOfPublications = [];
       for (let i = 0; i < 10; i++) {
@@ -56,23 +58,8 @@ function filter(dataFromServer) {
       }
       return newRandomListOfPublications;
     }
-
     const ListOfRandomPublications = renderRandomPublications();
-    const pictures = document.querySelector('.pictures');
-    const picturesElements = pictures.querySelectorAll('a');
-    const templateFragment = document.querySelector('#picture').content;
-    const template = templateFragment.querySelector('a');
-    picturesElements.forEach(item => item.remove());
-    const fragment = document.createDocumentFragment();
-    ListOfRandomPublications.forEach(item => {
-      const element = template.cloneNode(true);
-      element.querySelector('.picture__img').src=item.url;
-      element.querySelector('.picture__likes').textContent=item.likes;
-      element.querySelector('.picture__comments').textContent = item.comments.length;
-      fragment.appendChild(element);
-    });
-    pictures.appendChild(fragment);
-
+    renderFilteredPublications(ListOfRandomPublications);
   }
 
   const setRandomFilter = (cb) => {
@@ -94,20 +81,7 @@ function filter(dataFromServer) {
   });
 
   function onDiscussedFilter() {
-    const pictures = document.querySelector('.pictures');
-    const picturesElements = pictures.querySelectorAll('a');
-    const templateFragment = document.querySelector('#picture').content;
-    const template = templateFragment.querySelector('a');
-    picturesElements.forEach(element => element.remove());
-    const fragment = document.createDocumentFragment();
-    ListOfDisccussedPublications.forEach(item => {
-      const element = template.cloneNode(true);
-      element.querySelector('.picture__img').src=item.url;
-      element.querySelector('.picture__likes').textContent=item.likes;
-      element.querySelector('.picture__comments').textContent = item.comments.length;
-      fragment.appendChild(element);
-    });
-    pictures.appendChild(fragment);
+    renderFilteredPublications(ListOfDisccussedPublications);
   }
 
   const setDiscussedFilter = (cb) => {

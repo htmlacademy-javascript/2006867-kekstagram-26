@@ -14,8 +14,6 @@ function renderPublications(items) {
     fragment.appendChild(element);
   });
     pictures.appendChild(fragment);
-    console.log(pictures);
-
 };
 
 
