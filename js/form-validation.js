@@ -1,6 +1,8 @@
-import { showAlert } from "./util.js";
-import { sendData } from "./api.js";
-
+import { sendData } from './api.js';
+import { showMessageSuccess } from './user-form.js';
+import { closeMessageSuccess } from './user-form.js';
+import { showMessageError } from './user-form.js';
+import { closeMessageError } from './user-form.js';
 
 const formElement = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
@@ -14,6 +16,7 @@ const pristine = new Pristine(formElement, {
 
 // Функция валидации хештегов
 const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+
 function hashtagValidate(text) {
   return regular.test(text);
 }
@@ -25,32 +28,26 @@ function checkSimilarElements(arr) {
 }
 
 function modifyArrHashTag(value) {
-  return value.toLowerCase().split(' ');
+  return value.trim().toLowerCase().split(' ');
 }
 
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   if  (modifyArrHashTag(value).length <= 5) {
     return true;
   }
   return false;
-}, 'Допускается не более пяти хэштегов', false );
+}, 'Допускается не более пяти хэштегов ', false );
 
-pristine.addValidator(inputHashtags, function(value) {
-  if  (modifyArrHashTag(value).length === 1) {
-    return false;
-  }
-  return true;
-}, 'хеш-тег не может состоять только из одной решётки', false );
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   if (!checkSimilarElements(modifyArrHashTag(value))) {
     return true;
   }
   return false;
 }, 'Хештеги должны быть разными', false);
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   for (let i = 0; i < modifyArrHashTag(value).length; i++) {
     if (hashtagValidate(modifyArrHashTag(value)[i])) {
       return true;
@@ -59,7 +56,7 @@ pristine.addValidator(inputHashtags, function(value) {
   }
 }, 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   for (let i = 0; i < modifyArrHashTag(value).length; i++) {
     if (modifyArrHashTag(value)[i].startsWith('#')) {
       return true;
@@ -68,35 +65,36 @@ pristine.addValidator(inputHashtags, function(value) {
   }
 }, 'Хештег должен начинаться с #', false);
 
-pristine.addValidator(inputHashtags, function(value) {
+pristine.addValidator(inputHashtags, (value) => {
   for (let i = 0; i< modifyArrHashTag(value).length; i++) {
-    if (modifyArrHashTag(value)[i].length < 20) {
+    if (modifyArrHashTag(value)[i].length < 20 && modifyArrHashTag(value)[i].length >= 2) {
       return true;
     }
     return false;
   }
-}, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', false);
+}, 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
 
-pristine.addValidator(inputComments, function(value) {
+
+pristine.addValidator(inputComments, (value) => {
   if (value.length < 140) {
     return true;
   }
   return false;
 }, 'Макс длина комментария 140 символов');
 
-const blockSubmitButton = () => {
+function blockSubmitButton () {
   submitButton.disabled = true;
   submitButton.textContent = 'Сохраняю...';
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton () {
   submitButton.disabled = false;
   submitButton.textContent = 'Сохранить';
 }
 
 
 function  setUserFormSubmit(onSuccess) {
-  formElement.addEventListener('submit', function (evt) {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
@@ -106,16 +104,19 @@ function  setUserFormSubmit(onSuccess) {
         () => {
           onSuccess();
           unblockSubmitButton();
+          showMessageSuccess();
+          closeMessageSuccess();
         },
         () => {
-          showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
           unblockSubmitButton();
+          showMessageError();
+          closeMessageError();
         },
         new FormData(evt.target),
       );
     }
   });
-};
+}
 
 
 export {formElement};

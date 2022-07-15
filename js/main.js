@@ -1,18 +1,15 @@
-import { closeUserModal } from './user-form.js';
+import { onCloseUserModal } from './user-form.js';
 import { setUserFormSubmit } from './form-validation.js';
-import {uploadInputElement} from './user-form.js';
-import { formElement } from './form-validation.js';
 import { createLoader } from './api.js';
 import { renderPublications } from './publications.js';
-import { init } from './bigpicture.js';
+import { filter } from './filter.js';
+import { renderFullSize } from './bigpicture.js';
+import './loadphoto.js';
 
+createLoader((photos) => {
+  renderPublications(photos);
+  filter(photos);
+  renderFullSize(photos);
+});
 
-
-const loadPictures = createLoader(renderPublications, console.error);
-await loadPictures();
-
-init();
-
-setUserFormSubmit(closeUserModal);
-
-
+setUserFormSubmit(onCloseUserModal);

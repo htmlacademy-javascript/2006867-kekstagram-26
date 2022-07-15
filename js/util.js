@@ -7,12 +7,6 @@ function getRandomInteger(a, b) {
   return Math.floor(result);
 }
 
-function checkLength(str, max) {
-  if (str.length <= max) {
-    return true;
-  }
-  return false;
-}
 
 function createRandomIdFromRangeGenerator (min, max, numberOfElements) {
   const randomArray= [];
@@ -31,9 +25,9 @@ function getRandomArrayElement(elements) {
 
 const findElement = function(array, key, field) {
   for (let i=0; i<array.length; i++) {
-    if (array[i].url===key && field==='description') {
+    if (array[i].id===key && field==='description') {
       return array[i].description;}
-    if (array[i].url===key && field ==='comments')  {
+    if (array[i].id===key && field ==='comments')  {
       return array[i].comments;
     }
   }
@@ -58,10 +52,24 @@ const showAlert = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
+};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
 }
 
 export {getRandomArrayElement};
 export {createRandomIdFromRangeGenerator};
 export {getRandomInteger};
 export {findElement};
+export {isEscapeKey};
 export {showAlert};
+export {debounce};
