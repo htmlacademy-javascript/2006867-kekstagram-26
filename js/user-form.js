@@ -1,4 +1,6 @@
 import { formElement } from './form-validation.js';
+import { isEscapeKey } from './util.js';
+
 
 const uploadInputElement = document.querySelector('.img-upload__input');
 const imgOverlay = document.querySelector('.img-upload__overlay');
@@ -24,7 +26,7 @@ function onCloseMessageSuccess() {
 }
 
 function onSuccesEscKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     const successMessage = document.querySelector('.success');
     successMessage.remove();
   }
@@ -33,7 +35,8 @@ function onSuccesEscKeydown(evt) {
 
 function closeMessageSuccess() {
   const successButtonElement = document.querySelector('.success__button');
-  document.addEventListener('click', onSuccesEscKeydown);
+  document.addEventListener('keydown', onSuccesEscKeydown);
+  document.addEventListener('click', onCloseMessageSuccess);
   successButtonElement.addEventListener('click', onCloseMessageSuccess);
 }
 
@@ -41,6 +44,7 @@ function showMessageError() {
   const errorMessageTemplate = errorMessageElement.content.firstElementChild;
   errorMessageTemplate.cloneNode(true);
   document.body.append(errorMessageTemplate);
+  errorMessageTemplate.style.zIndex = 5;
 }
 
 function onCloseMessageError() {
@@ -49,15 +53,16 @@ function onCloseMessageError() {
 }
 
 function onErrorEscKeydown(evt) {
-  if (evt.key === 'Escape') {
-    const errorMessage = document.querySelector('.error');
+  const errorMessage = document.querySelector('.error');
+  if (isEscapeKey(evt)) {
     errorMessage.remove();
   }
 }
 
 function closeMessageError() {
   const errorButtonElement = document.querySelector('.error__button');
-  document.addEventListener('click', onErrorEscKeydown);
+  document.addEventListener('keydown', onErrorEscKeydown);
+  document.addEventListener('click', onCloseMessageError);
   errorButtonElement.addEventListener('click', onCloseMessageError);
 }
 
@@ -82,7 +87,8 @@ function onCloseUserModal() {
 }
 
 function onPopupEscKeydown(evt) {
-  if (evt.key === 'Escape' && document.activeElement !== inputElement) {
+  const errorElement = document.querySelector('.error');
+  if (evt.key === 'Escape' && document.activeElement !== inputElement && !errorElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
     formElement.reset();

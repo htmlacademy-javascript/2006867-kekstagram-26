@@ -1,4 +1,3 @@
-import { showAlert } from './util.js';
 import { sendData } from './api.js';
 import { showMessageSuccess } from './user-form.js';
 import { closeMessageSuccess } from './user-form.js';

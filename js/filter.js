@@ -9,9 +9,9 @@ function renderFilteredPublications(arr) {
   const picturesElements = pictures.querySelectorAll('a');
   const templateFragment = document.querySelector('#picture').content;
   const template = templateFragment.querySelector('a');
-  picturesElements.forEach(element => element.remove());
+  picturesElements.forEach((element) => element.remove());
   const fragment = document.createDocumentFragment();
-  arr.forEach(item => {
+  arr.forEach((item) => {
     const element = template.cloneNode(true);
     element.querySelector('.picture__img').src=item.url;
     element.querySelector('.picture__likes').textContent=item.likes;
@@ -37,6 +37,7 @@ function filter(dataFromServer) {
 
   function onDefaultFilter(){
     renderFilteredPublications(dataFromServer);
+    renderFullSize(dataFromServer);
   }
 
   const setDefaultFilter = (cb) => {
@@ -78,9 +79,9 @@ function filter(dataFromServer) {
 
 
   const clonedDataFromServer = dataFromServer.slice(0);
-  const ListOfDisccussedPublications = clonedDataFromServer.sort((a, b) => {
-    return b.likes - a.likes;
-  });
+  const ListOfDisccussedPublications = clonedDataFromServer.sort((a, b) =>
+    b.likes - a.likes
+  );
 
   function onDiscussedFilter() {
     renderFilteredPublications(ListOfDisccussedPublications);
