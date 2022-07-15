@@ -31,7 +31,6 @@ function modifyArrHashTag(value) {
   return value.trim().toLowerCase().split(' ');
 }
 
-
 pristine.addValidator(inputHashtags, (value) => {
   if  (modifyArrHashTag(value).length <= 5) {
     return true;
@@ -47,32 +46,9 @@ pristine.addValidator(inputHashtags, (value) => {
   return false;
 }, 'Хештеги должны быть разными', false);
 
-pristine.addValidator(inputHashtags, (value) => {
-  for (let i = 0; i < modifyArrHashTag(value).length; i++) {
-    if (hashtagValidate(modifyArrHashTag(value)[i])) {
-      return true;
-    }
-    return false;
-  }
-}, 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
-
-pristine.addValidator(inputHashtags, (value) => {
-  for (let i = 0; i < modifyArrHashTag(value).length; i++) {
-    if (modifyArrHashTag(value)[i].startsWith('#')) {
-      return true;
-    }
-    return false;
-  }
-}, 'Хештег должен начинаться с #', false);
-
-pristine.addValidator(inputHashtags, (value) => {
-  for (let i = 0; i< modifyArrHashTag(value).length; i++) {
-    if (modifyArrHashTag(value)[i].length < 20 && modifyArrHashTag(value)[i].length >= 2) {
-      return true;
-    }
-    return false;
-  }
-}, 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
+pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => hashtagValidate(item)), 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
+pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => item.startsWith('#')), 'Хештег должен начинаться с #', false);
+pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) =>item.length<20 && item.length>=2), 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
 
 
 pristine.addValidator(inputComments, (value) => {
