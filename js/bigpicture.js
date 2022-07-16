@@ -1,6 +1,6 @@
 import {findElement, isEscapeKey} from './util.js';
 
-let countOfComments = 5;
+let COUNT_OF_COMMENTS = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('.big-picture__cancel');
@@ -22,31 +22,31 @@ function openBigPicture() {
   document.addEventListener('keydown', onBigPictureEscKeydown);
 }
 
+commentsLoader.addEventListener('click', showRestComments);
+
 function renderFullSize(elem) {
   const pictures = document.querySelector('.pictures');
-  const allpictures =pictures.querySelectorAll('a');
   const commentCount = bigPicture.querySelector('.social__comment-count ');
-
-  for (const picture of allpictures) {
-    picture.addEventListener('click', openBigPicture);
-    picture.addEventListener('click', () => {
-      bigPicture.querySelector('img').src = picture.querySelector('.picture__img').src;
-      const picId = +picture.dataset.id;
-      bigPicture.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
-      bigPicture.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
+  pictures.addEventListener('click', (evt) => {
+    if (evt.target.parentElement.getAttribute('class') === 'picture') {
+      openBigPicture();
+      const picture = evt.target;
+      bigPicture.querySelector('img').src = picture.src;
+      const picId = +picture.parentElement.dataset.id;
+      bigPicture.querySelector('.likes-count').textContent = picture.parentElement.querySelector('.picture__likes').textContent;
+      bigPicture.querySelector('.comments-count').textContent = picture.parentElement.querySelector('.picture__comments').textContent;
       const descriptionOfPicture = findElement(elem, picId, 'description');
       const objectsOfComments = findElement(elem, picId, 'comments');
       const numberOfComments = objectsOfComments.length;
-      if (numberOfComments < countOfComments) {
+      if (numberOfComments < COUNT_OF_COMMENTS) {
         commentCount.childNodes[0].textContent= `${numberOfComments} из `;
       }
       bigPicture.querySelector('.comments-count').textContent = objectsOfComments.length;
       bigPicture.querySelector('.social__caption').textContent = descriptionOfPicture ;
       socialComments.innerHTML = '';
       showComments(objectsOfComments);
-      commentsLoader.addEventListener('click', () => showRestComments(objectsOfComments));
-    });
-  }
+    }
+  });
 }
 
 function createCommentsList(arr, item, root) {
@@ -61,8 +61,9 @@ function createCommentsList(arr, item, root) {
   }
 }
 
-
+let commentsList = [];
 function showComments(arr) {
+  commentsList = arr;
   createCommentsList(arr, socialItem, socialComments);
   const listofComments = bigPicture.querySelectorAll('.social__comment');
   if ( arr.length > 5 ) {
@@ -76,20 +77,19 @@ function showComments(arr) {
 }
 
 
-function showRestComments(arr) {
-  countOfComments += 5;
-  console.log(countOfComments);
+function showRestComments() {
+  COUNT_OF_COMMENTS += 5;
   const listofComments = bigPicture.querySelectorAll('.social__comment');
-  if (countOfComments < arr.length) {
-    for (let i = 0; i < countOfComments; i++) {
+  if (COUNT_OF_COMMENTS< commentsList.length) {
+    for (let i = 0; i < COUNT_OF_COMMENTS; i++) {
       listofComments[i].classList.remove('hidden');
-      countOfShownCommentsElement.childNodes[0].textContent= `${countOfComments} из `;
+      countOfShownCommentsElement.childNodes[0].textContent= `${COUNT_OF_COMMENTS} из `;
     }
   } else {
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < commentsList.length; i++) {
       listofComments[i].classList.remove('hidden');
       commentsLoader.classList.add('hidden');
-      countOfShownCommentsElement.childNodes[0].textContent= `${arr.length} из `;
+      countOfShownCommentsElement.childNodes[0].textContent= `${commentsList.length} из `;
     }
   }
 }
@@ -101,7 +101,7 @@ function oncloseBigPicture() {
   document.removeEventListener('keydown', onBigPictureEscKeydown);
   countOfShownCommentsElement.childNodes[0].textContent= '5 из ';
   commentsLoader.classList.toggle('hidden');
-  countOfComments = 5;
+  COUNT_OF_COMMENTS = 5;
 }
 
 closeButton.addEventListener('click', oncloseBigPicture );

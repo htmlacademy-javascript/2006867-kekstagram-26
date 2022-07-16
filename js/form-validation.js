@@ -4,6 +4,9 @@ import { closeMessageSuccess } from './user-form.js';
 import { showMessageError } from './user-form.js';
 import { closeMessageError } from './user-form.js';
 
+const MAXCOMMENTSLEHGTH = 140;
+const MAXHASHTAGS =5;
+
 const formElement = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputComments = document.querySelector('.text__description');
@@ -32,7 +35,7 @@ function modifyArrHashTag(value) {
 }
 
 pristine.addValidator(inputHashtags, (value) => {
-  if  (modifyArrHashTag(value).length <= 5) {
+  if  (modifyArrHashTag(value).length <= MAXHASHTAGS) {
     return true;
   }
   return false;
@@ -46,13 +49,13 @@ pristine.addValidator(inputHashtags, (value) => {
   return false;
 }, 'Хештеги должны быть разными', false);
 
-pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => hashtagValidate(item)), 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
-pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => item.startsWith('#')), 'Хештег должен начинаться с #', false);
-pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) =>item.length<20 && item.length>=2), 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
+pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => hashtagValidate(item)) || value === '', 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
+pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => item.startsWith('#')) ||  value === '', 'Хештег должен начинаться с #', false);
+pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) =>item.length<20 && item.length>=2) || value === '', 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
 
 
 pristine.addValidator(inputComments, (value) => {
-  if (value.length < 140) {
+  if (value.length < MAXCOMMENTSLEHGTH) {
     return true;
   }
   return false;

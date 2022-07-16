@@ -1,8 +1,8 @@
 import { createRandomIdFromRangeGenerator } from './util.js';
-import { renderFullSize } from './bigpicture.js';
 import { debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
+const COUNT_OF_RANDOM = 10;
 
 function renderFilteredPublications(arr) {
   const pictures = document.querySelector('.pictures');
@@ -37,7 +37,6 @@ function filter(dataFromServer) {
 
   function onDefaultFilter(){
     renderFilteredPublications(dataFromServer);
-    renderFullSize(dataFromServer);
   }
 
   const setDefaultFilter = (cb) => {
@@ -53,17 +52,16 @@ function filter(dataFromServer) {
 
 
   function onRandomFilter() {
-    const newIdOfRandomPublications = createRandomIdFromRangeGenerator(0, dataFromServer.length-1, 10);
+    const newIdOfRandomPublications = createRandomIdFromRangeGenerator(0, dataFromServer.length-1, COUNT_OF_RANDOM);
     function renderRandomPublications() {
       const newRandomListOfPublications = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < COUNT_OF_RANDOM; i++) {
         newRandomListOfPublications.push(dataFromServer[newIdOfRandomPublications[i]]);
       }
       return newRandomListOfPublications;
     }
     const ListOfRandomPublications = renderRandomPublications();
     renderFilteredPublications(ListOfRandomPublications);
-    renderFullSize(ListOfRandomPublications);
   }
 
   const setRandomFilter = (cb) => {
@@ -85,7 +83,6 @@ function filter(dataFromServer) {
 
   function onDiscussedFilter() {
     renderFilteredPublications(ListOfDisccussedPublications);
-    renderFullSize(ListOfDisccussedPublications);
   }
 
   const setDiscussedFilter = (cb) => {

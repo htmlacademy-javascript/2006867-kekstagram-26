@@ -1,3 +1,5 @@
+import { renderFullSize } from './bigpicture.js';
+
 const pictures = document.querySelector('.pictures');
 const templateFragment = document.querySelector('#picture').content;
 const template = templateFragment.querySelector('a');
@@ -14,8 +16,8 @@ function renderPublications(items) {
     fragment.appendChild(element);
   });
   pictures.appendChild(fragment);
+  renderFullSize(items);
 }
-
 
 export {pictures};
 export {renderPublications};
