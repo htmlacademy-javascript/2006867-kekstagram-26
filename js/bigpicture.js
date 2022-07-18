@@ -65,10 +65,10 @@ let commentsList = [];
 function showComments(arr) {
   commentsList = arr;
   createCommentsList(arr, socialItem, socialComments);
-  const listofComments = bigPicture.querySelectorAll('.social__comment');
+  const listOfComments = bigPicture.querySelectorAll('.social__comment');
   if ( arr.length > 5 ) {
     for ( let i = 5; i < arr.length; i++ ) {
-      listofComments[i].classList.add('hidden');
+      listOfComments[i].classList.add('hidden');
     }
   }
   else {
@@ -79,15 +79,15 @@ function showComments(arr) {
 
 function showRestComments() {
   COUNT_OF_COMMENTS += 5;
-  const listofComments = bigPicture.querySelectorAll('.social__comment');
+  const listOfComments = bigPicture.querySelectorAll('.social__comment');
   if (COUNT_OF_COMMENTS< commentsList.length) {
     for (let i = 0; i < COUNT_OF_COMMENTS; i++) {
-      listofComments[i].classList.remove('hidden');
+      listOfComments[i].classList.remove('hidden');
       countOfShownCommentsElement.childNodes[0].textContent= `${COUNT_OF_COMMENTS} из `;
     }
   } else {
     for (let i = 0; i < commentsList.length; i++) {
-      listofComments[i].classList.remove('hidden');
+      listOfComments[i].classList.remove('hidden');
       commentsLoader.classList.add('hidden');
       countOfShownCommentsElement.childNodes[0].textContent= `${commentsList.length} из `;
     }

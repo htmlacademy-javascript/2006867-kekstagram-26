@@ -1,5 +1,6 @@
 import { createRandomIdFromRangeGenerator } from './util.js';
 import { debounce } from './util.js';
+import { renderPublications } from './publications.js';
 
 const RERENDER_DELAY = 500;
 const COUNT_OF_RANDOM = 10;
@@ -7,20 +8,8 @@ const COUNT_OF_RANDOM = 10;
 function renderFilteredPublications(arr) {
   const pictures = document.querySelector('.pictures');
   const picturesElements = pictures.querySelectorAll('a');
-  const templateFragment = document.querySelector('#picture').content;
-  const template = templateFragment.querySelector('a');
   picturesElements.forEach((element) => element.remove());
-  const fragment = document.createDocumentFragment();
-  arr.forEach((item) => {
-    const element = template.cloneNode(true);
-    element.querySelector('.picture__img').src=item.url;
-    element.querySelector('.picture__likes').textContent=item.likes;
-    element.querySelector('.picture__comments').textContent = item.comments.length;
-    element.dataset.id  =  item.id;
-    fragment.appendChild(element);
-  });
-  pictures.appendChild(fragment);
-
+  renderPublications(arr);
 }
 
 function filter(dataFromServer) {

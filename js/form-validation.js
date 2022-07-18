@@ -4,8 +4,8 @@ import { closeMessageSuccess } from './user-form.js';
 import { showMessageError } from './user-form.js';
 import { closeMessageError } from './user-form.js';
 
-const MAXCOMMENTSLEHGTH = 140;
-const MAXHASHTAGS =5;
+const MAX_COMMENTS_LEHGTH = 140;
+const MAX_HASHTAGS =5;
 
 const formElement = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
@@ -24,7 +24,6 @@ function hashtagValidate(text) {
   return regular.test(text);
 }
 
-
 // Проверка на "один и тот же хэш-тег не может быть использован дважды"
 function checkSimilarElements(arr) {
   return (new Set(arr)).size !== arr.length;
@@ -34,32 +33,12 @@ function modifyArrHashTag(value) {
   return value.trim().toLowerCase().split(' ');
 }
 
-pristine.addValidator(inputHashtags, (value) => {
-  if  (modifyArrHashTag(value).length <= MAXHASHTAGS) {
-    return true;
-  }
-  return false;
-}, 'Допускается не более пяти хэштегов ', false );
-
-
-pristine.addValidator(inputHashtags, (value) => {
-  if (!checkSimilarElements(modifyArrHashTag(value))) {
-    return true;
-  }
-  return false;
-}, 'Хештеги должны быть разными', false);
-
+pristine.addValidator(inputHashtags, (value) => (modifyArrHashTag(value).length <= MAX_HASHTAGS) , 'Допускается не более пяти хэштегов ', false );
+pristine.addValidator(inputHashtags, (value) => !checkSimilarElements(modifyArrHashTag(value)) , 'Хештеги должны быть разными', false);
 pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => hashtagValidate(item)) || value === '', 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации, эмодзи и т. д', false);
 pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) => item.startsWith('#')) ||  value === '', 'Хештег должен начинаться с #', false);
 pristine.addValidator(inputHashtags, (value) => modifyArrHashTag(value).every((item) =>item.length<20 && item.length>=2) || value === '', 'Максимальная длина одного хэш-тега 20 символов, включая решётку, минимальная-2', false);
-
-
-pristine.addValidator(inputComments, (value) => {
-  if (value.length < MAXCOMMENTSLEHGTH) {
-    return true;
-  }
-  return false;
-}, 'Макс длина комментария 140 символов');
+pristine.addValidator(inputComments, (value) => value.length < MAX_COMMENTS_LEHGTH, 'Макс длина комментария 140 символов');
 
 function blockSubmitButton () {
   submitButton.disabled = true;

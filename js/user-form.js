@@ -1,11 +1,32 @@
 import { formElement } from './form-validation.js';
 import { isEscapeKey } from './util.js';
 
+const STEP_OF_SCALE = 25;
+const MIN_VALUE_OF_SCALE = 25;
+const MAX_VALUE_OF_SCALE = 100;
+const CONVERSION_TO_PERCENT = 0.01;
+const MIN_CHROME = 0;
+const MIN_SEPIA = 0;
+const MIN_MARVIN = 0;
+const MIN_PHOBOS = 0;
+const MIN_HEAT = 1;
+const MAX_CHROME = 1;
+const MAX_SEPIA = 1;
+const MAX_MARVIN = 100;
+const MAX_PHOBOS = 3;
+const MAX_HEAT = 3;
+const STEP_CHROME = 0.1;
+const STEP_SEPIA = 0.1;
+const STEP_MARVIN = 1;
+const STEP_PHOBOS= 0.1;
+const STEP_HEAT= 0.1;
+
 
 const uploadInputElement = document.querySelector('.img-upload__input');
 const imgOverlay = document.querySelector('.img-upload__overlay');
 const closeButtonElement = document.querySelector('.img-upload__cancel');
 const inputElement = document.querySelector('.text__hashtags');
+const inputDescriptionElement = document.querySelector('.text__description');
 const scaleValue = document.querySelector('.scale__control--value');
 const ImageElement = document.querySelector('.img-upload__preview');
 const uploadImageElement = ImageElement.querySelector('img');
@@ -25,12 +46,14 @@ function showMessageSuccess() {
 
 function onCloseMessageSuccess() {
   const successMessage = document.querySelector('.success');
-  successMessage.remove();
+  if (successMessage) {
+    successMessage.remove();
+  }
 }
 
-function onSuccesEscKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    const successMessage = document.querySelector('.success');
+function onSuccessEscKeydown(evt) {
+  const successMessage = document.querySelector('.success');
+  if (isEscapeKey(evt) && successMessage) {
     successMessage.remove();
   }
 }
@@ -38,7 +61,7 @@ function onSuccesEscKeydown(evt) {
 
 function closeMessageSuccess() {
   const successButtonElement = document.querySelector('.success__button');
-  document.addEventListener('keydown', onSuccesEscKeydown);
+  document.addEventListener('keydown', onSuccessEscKeydown);
   document.addEventListener('click', onCloseMessageSuccess);
   successButtonElement.addEventListener('click', onCloseMessageSuccess);
 }
@@ -52,12 +75,15 @@ function showMessageError() {
 
 function onCloseMessageError() {
   const errorMessage = document.querySelector('.error');
-  errorMessage.remove();
+  if (errorMessage) {
+    errorMessage.remove();
+  }
+
 }
 
 function onErrorEscKeydown(evt) {
   const errorMessage = document.querySelector('.error');
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && errorMessage) {
     errorMessage.remove();
   }
 }
@@ -92,7 +118,7 @@ function onCloseUserModal() {
 
 function onPopupEscKeydown(evt) {
   const errorElement = document.querySelector('.error');
-  if (evt.key === 'Escape' && document.activeElement !== inputElement && !errorElement) {
+  if (evt.key === 'Escape' && document.activeElement !== inputElement && document.activeElement !== inputDescriptionElement && !errorElement) {
     document.body.classList.remove('modal-open');
     imgOverlay.classList.add('hidden');
     formElement.reset();
@@ -103,16 +129,16 @@ closeButtonElement.addEventListener('click', onCloseUserModal);
 
 
 document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('scale__control--smaller') && numberScaleValue > 25) {
-    numberScaleValue -= 25;
+  if (e.target.classList.contains('scale__control--smaller') && numberScaleValue > MIN_VALUE_OF_SCALE) {
+    numberScaleValue -= STEP_OF_SCALE;
     scaleValue.value = `${numberScaleValue} %`;
-    uploadImageElement.style.transform = `scale(${numberScaleValue*0.01})`;
+    uploadImageElement.style.transform = `scale(${numberScaleValue*CONVERSION_TO_PERCENT})`;
 
   }
-  else if (e.target.classList.contains('scale__control--bigger') && numberScaleValue < 100) {
-    numberScaleValue += 25;
+  else if (e.target.classList.contains('scale__control--bigger') && numberScaleValue < MAX_VALUE_OF_SCALE) {
+    numberScaleValue += STEP_OF_SCALE;
     scaleValue.value = `${numberScaleValue} %`;
-    uploadImageElement.style.transform = `scale(${numberScaleValue*0.01})`;
+    uploadImageElement.style.transform = `scale(${numberScaleValue*CONVERSION_TO_PERCENT})`;
   }
 });
 
@@ -129,23 +155,23 @@ function onEffectClick(event){
       break;
     case effectElement.contains('effects__preview--chrome'):
       uploadImageElement.classList.add('effects__preview--chrome');
-      updateUISlider(0, 1, 0.1, 'grayscale');
+      updateUISlider(MIN_CHROME, MAX_CHROME, STEP_CHROME, 'grayscale');
       break;
     case effectElement.contains('effects__preview--sepia'):
       uploadImageElement.className = 'effects__preview--sepia';
-      updateUISlider(0, 1, 0.1, 'sepia');
+      updateUISlider(MIN_SEPIA, MAX_SEPIA, STEP_SEPIA, 'sepia');
       break;
     case effectElement.contains('effects__preview--marvin'):
       uploadImageElement.className = 'effects__preview--marvin';
-      updateUISlider(0, 100, 1, 'invert');
+      updateUISlider(MIN_MARVIN, MAX_MARVIN, STEP_MARVIN, 'invert');
       break;
     case effectElement.contains('effects__preview--phobos'):
       uploadImageElement.className = 'effects__preview--phobos';
-      updateUISlider(0, 3, 0.1, 'blur');
+      updateUISlider(MIN_PHOBOS, MAX_PHOBOS, STEP_PHOBOS, 'blur');
       break;
     case effectElement.contains('effects__preview--heat'):
       uploadImageElement.className = 'effects__preview--heat';
-      updateUISlider(1, 3, 0.1, 'brightness');
+      updateUISlider(MIN_HEAT, MAX_HEAT, STEP_HEAT, 'brightness');
       break;
   }
 }
