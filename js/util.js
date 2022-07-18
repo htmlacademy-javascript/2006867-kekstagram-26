@@ -26,7 +26,7 @@ function findElement (array, key, field) {
       return array[i].comments;
     }
   }
-};
+}
 
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;

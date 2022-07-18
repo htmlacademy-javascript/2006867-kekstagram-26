@@ -22,8 +22,6 @@ const STEP_PHOBOS= 0.1;
 const STEP_HEAT= 0.1;
 
 
-
-
 const uploadInputElement = document.querySelector('.img-upload__input');
 const imgOverlay = document.querySelector('.img-upload__overlay');
 const closeButtonElement = document.querySelector('.img-upload__cancel');
